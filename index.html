@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -29,200 +28,199 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:15px;line-height:1.6}
 
 /* SIDEBAR */
-.sidebar{position:fixed;top:0;left:0;width:var(–sw);height:100vh;background:var(–bg);border-right:1px solid var(–border);display:flex;flex-direction:column;z-index:200;overflow-y:auto}
-.s-logo{display:flex;align-items:center;gap:10px;padding:22px 24px 20px;border-bottom:1px solid var(–border);text-decoration:none;flex-shrink:0}
+.sidebar{position:fixed;top:0;left:0;width:var(--sw);height:100vh;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200;overflow-y:auto}
+.s-logo{display:flex;align-items:center;gap:10px;padding:22px 24px 20px;border-bottom:1px solid var(--border);text-decoration:none;flex-shrink:0}
 .s-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .s-icon svg{width:26px;height:26px}
-.s-name{font-family:var(–serif);font-size:16px;color:var(–text);letter-spacing:-.01em}
-.s-group{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(–gray);padding:10px 24px 3px}
-.s-item{display:flex;align-items:baseline;justify-content:space-between;padding:8px 24px;text-decoration:none;color:var(–text-lt);font-size:13px;transition:color .12s,background .12s;position:relative}
-.s-item:hover{color:var(–orange);background:rgba(217,119,87,.05)}
-.s-item.active{color:var(–orange);font-weight:500;background:rgba(217,119,87,.07)}
-.s-item.active::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:2px;background:var(–orange)}
-.s-num{font-size:9px;color:var(–gray);font-weight:500}
-.s-foot{padding:14px 24px;border-top:1px solid var(–border);display:flex;flex-direction:column;gap:7px;flex-shrink:0}
-.s-foot a{color:var(–gray);font-size:12px;text-decoration:none;transition:color .12s}
-.s-foot a:hover{color:var(–orange)}
+.s-name{font-family:var(--serif);font-size:16px;color:var(--text);letter-spacing:-.01em}
+.s-group{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);padding:10px 24px 3px}
+.s-item{display:flex;align-items:baseline;justify-content:space-between;padding:8px 24px;text-decoration:none;color:var(--text-lt);font-size:13px;transition:color .12s,background .12s;position:relative}
+.s-item:hover{color:var(--orange);background:rgba(217,119,87,.05)}
+.s-item.active{color:var(--orange);font-weight:500;background:rgba(217,119,87,.07)}
+.s-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--orange)}
+.s-num{font-size:9px;color:var(--gray);font-weight:500}
+.s-foot{padding:14px 24px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+.s-foot a{color:var(--gray);font-size:12px;text-decoration:none;transition:color .12s}
+.s-foot a:hover{color:var(--orange)}
 
 /* MAIN */
-.main{margin-left:var(–sw);flex:1}
+.main{margin-left:var(--sw);flex:1}
 
 /* HERO */
-.hero{background:var(–bg);border-bottom:1px solid var(–border);padding:88px 64px 80px;position:relative;overflow:hidden}
-.hero::after{content:’’;position:absolute;top:-60px;right:-40px;width:320px;height:320px;border-radius:50%;background:rgba(217,119,87,.07);pointer-events:none}
-.hero-ey{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(–orange);margin-bottom:22px}
-.hero-title{font-family:var(–serif);font-size:clamp(64px,9vw,112px);color:var(–text);letter-spacing:-.03em;line-height:1;font-weight:400;margin-bottom:24px}
-.hero-sub{font-size:clamp(14px,1.6vw,17px);color:var(–text-lt);max-width:520px;line-height:1.75;font-weight:300}
+.hero{background:var(--bg);border-bottom:1px solid var(--border);padding:88px 64px 80px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-60px;right:-40px;width:320px;height:320px;border-radius:50%;background:rgba(217,119,87,.07);pointer-events:none}
+.hero-ey{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:22px}
+.hero-title{font-family:var(--serif);font-size:clamp(64px,9vw,112px);color:var(--text);letter-spacing:-.03em;line-height:1;font-weight:400;margin-bottom:24px}
+.hero-sub{font-size:clamp(14px,1.6vw,17px);color:var(--text-lt);max-width:520px;line-height:1.75;font-weight:300}
 
 /* INTRO */
-.intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:72px 64px;border-bottom:1px solid var(–border)}
-.intro h2{font-family:var(–serif);font-size:clamp(28px,3vw,44px);line-height:1.15;font-weight:400;letter-spacing:-.02em}
-.intro-body p{font-size:14px;line-height:1.85;color:var(–text-mid);margin-bottom:16px}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:72px 64px;border-bottom:1px solid var(--border)}
+.intro h2{font-family:var(--serif);font-size:clamp(28px,3vw,44px);line-height:1.15;font-weight:400;letter-spacing:-.02em}
+.intro-body p{font-size:14px;line-height:1.85;color:var(--text-mid);margin-bottom:16px}
 .toc{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:8px}
-.toc li{display:flex;gap:12px;font-size:13px;color:var(–text-mid);line-height:1.5}
-.toc-n{color:var(–orange);font-weight:600;font-size:10px;min-width:20px;padding-top:2px;flex-shrink:0}
+.toc li{display:flex;gap:12px;font-size:13px;color:var(--text-mid);line-height:1.5}
+.toc-n{color:var(--orange);font-weight:600;font-size:10px;min-width:20px;padding-top:2px;flex-shrink:0}
 
 /* SECTION */
-.sec{padding:80px 64px;border-bottom:1px solid var(–border)}
+.sec{padding:80px 64px;border-bottom:1px solid var(--border)}
 .sg{display:grid;grid-template-columns:180px 1fr;gap:56px}
-.slb{font-size:12px;font-weight:500;color:var(–gray);padding-top:5px}
-.slb sup{font-size:8px;color:var(–gray);vertical-align:super;margin-left:2px}
-.sbody h3{font-family:var(–serif);font-size:clamp(24px,2.6vw,38px);font-weight:400;line-height:1.2;letter-spacing:-.02em;margin-bottom:18px}
-.sbody>p{font-size:14px;line-height:1.85;color:var(–text-mid);margin-bottom:14px;max-width:680px}
-.sub{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(–gray);margin:36px 0 12px}
+.slb{font-size:12px;font-weight:500;color:var(--gray);padding-top:5px}
+.slb sup{font-size:8px;color:var(--gray);vertical-align:super;margin-left:2px}
+.sbody h3{font-family:var(--serif);font-size:clamp(24px,2.6vw,38px);font-weight:400;line-height:1.2;letter-spacing:-.02em;margin-bottom:18px}
+.sbody>p{font-size:14px;line-height:1.85;color:var(--text-mid);margin-bottom:14px;max-width:680px}
+.sub{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin:36px 0 12px}
 
 /* ANALOGY BOX（たとえ話） */
-.analogy{background:rgba(217,119,87,.06);border:1px solid rgba(217,119,87,.2);border-left:3px solid var(–orange);padding:14px 18px;margin-bottom:20px}
-.analogy p{font-size:13.5px;color:var(–text-mid);line-height:1.8;margin:0}
-.analogy strong{color:var(–text)}
+.analogy{background:rgba(217,119,87,.06);border:1px solid rgba(217,119,87,.2);border-left:3px solid var(--orange);padding:14px 18px;margin-bottom:20px}
+.analogy p{font-size:13.5px;color:var(--text-mid);line-height:1.8;margin:0}
+.analogy strong{color:var(--text)}
 
 /* PRODUCT BANNER */
-.pb{background:var(–bg-sub);border:1px solid var(–border);padding:34px 40px;display:flex;align-items:center;gap:32px;margin-top:8px}
-.pb.or{border-left:4px solid var(–orange)}
-.pb.gr{border-left:4px solid var(–green)}
-.pb.bl{border-left:4px solid var(–blue)}
+.pb{background:var(--bg-sub);border:1px solid var(--border);padding:34px 40px;display:flex;align-items:center;gap:32px;margin-top:8px}
+.pb.or{border-left:4px solid var(--orange)}
+.pb.gr{border-left:4px solid var(--green)}
+.pb.bl{border-left:4px solid var(--blue)}
 .pb-t{flex:1}
 .pb-ey{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
-.pb.or .pb-ey{color:var(–orange)}.pb.gr .pb-ey{color:var(–green)}.pb.bl .pb-ey{color:var(–blue)}
-.pb-title{font-family:var(–serif);font-size:clamp(20px,2.4vw,32px);color:var(–text);font-weight:400;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
-.pb-sub{font-size:13px;color:var(–text-lt);line-height:1.65;max-width:420px}
+.pb.or .pb-ey{color:var(--orange)}.pb.gr .pb-ey{color:var(--green)}.pb.bl .pb-ey{color:var(--blue)}
+.pb-title{font-family:var(--serif);font-size:clamp(20px,2.4vw,32px);color:var(--text);font-weight:400;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.pb-sub{font-size:13px;color:var(--text-lt);line-height:1.65;max-width:420px}
 .pb-icon{font-size:38px;flex-shrink:0;opacity:.85}
-.pb-meta{background:var(–bg);border:1px solid var(–border);border-top:none;padding:18px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.pb-ml{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(–gray);margin-bottom:4px}
-.pb-mv{font-size:12.5px;color:var(–text);line-height:1.5}
+.pb-meta{background:var(--bg);border:1px solid var(--border);border-top:none;padding:18px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pb-ml{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray);margin-bottom:4px}
+.pb-mv{font-size:12.5px;color:var(--text);line-height:1.5}
 
 /* FEAT GRID */
-.fg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(–border);margin-top:20px}
-.fc{padding:22px 24px;border-right:1px solid var(–border);border-bottom:1px solid var(–border);display:flex;gap:14px;align-items:flex-start}
+.fg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);margin-top:20px}
+.fc{padding:22px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start}
 .fc:nth-child(even){border-right:none}
 .fc:nth-last-child(-n+2){border-bottom:none}
-.fi{width:32px;height:32px;flex-shrink:0;background:var(–bg-sub);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;font-size:14px}
+.fi{width:32px;height:32px;flex-shrink:0;background:var(--bg-sub);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px}
 .ft h4{font-size:13px;font-weight:500;margin-bottom:5px}
-.ft p{font-size:12px;line-height:1.7;color:var(–text-lt);margin:0}
+.ft p{font-size:12px;line-height:1.7;color:var(--text-lt);margin:0}
 
 /* EXAMPLE / ADVANCED BOXES */
-.box{border:1px solid var(–border);margin-top:8px}
-.bh{display:flex;align-items:center;gap:7px;padding:7px 12px;background:var(–bg-sub);border-bottom:1px solid var(–border)}
-.bd{width:6px;height:6px;border-radius:50%;background:var(–orange);flex-shrink:0}
-.box.adv .bd{background:var(–blue)}
-.bl2{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(–text-lt)}
+.box{border:1px solid var(--border);margin-top:8px}
+.bh{display:flex;align-items:center;gap:7px;padding:7px 12px;background:var(--bg-sub);border-bottom:1px solid var(--border)}
+.bd{width:6px;height:6px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.box.adv .bd{background:var(--blue)}
+.bl2{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-lt)}
 .box ul{list-style:none;padding:9px 12px;display:flex;flex-direction:column;gap:5px}
-.box ul li{font-size:12px;color:var(–text-mid);display:flex;gap:7px;align-items:baseline;line-height:1.6}
-.box ul li::before{content:‘→’;color:var(–orange);font-size:10px;flex-shrink:0}
-.box.adv ul li::before{color:var(–blue)}
+.box ul li{font-size:12px;color:var(--text-mid);display:flex;gap:7px;align-items:baseline;line-height:1.6}
+.box ul li::before{content:'→';color:var(--orange);font-size:10px;flex-shrink:0}
+.box.adv ul li::before{color:var(--blue)}
 
 /* STEPS */
-.steps{border:1px solid var(–border);margin-top:20px}
-.si{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(–border)}
+.steps{border:1px solid var(--border);margin-top:20px}
+.si{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(--border)}
 .si:last-child{border-bottom:none}
-.sn{padding:16px;background:var(–bg-sub);border-right:1px solid var(–border);font-family:var(–serif);font-size:20px;color:var(–border);display:flex;align-items:center;justify-content:center;font-style:italic}
+.sn{padding:16px;background:var(--bg-sub);border-right:1px solid var(--border);font-family:var(--serif);font-size:20px;color:var(--border);display:flex;align-items:center;justify-content:center;font-style:italic}
 .sc{padding:14px 20px}
 .sc h4{font-size:13px;font-weight:500;margin-bottom:4px}
-.sc p{font-size:12.5px;line-height:1.7;color:var(–text-mid);margin:0}
+.sc p{font-size:12.5px;line-height:1.7;color:var(--text-mid);margin:0}
 
 /* MODEL CARDS */
-.mc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
-.mcard{background:var(–bg)}
+.mc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.mcard{background:var(--bg)}
 .mhd{padding:14px 18px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.mhd.opus{background:var(–text);color:white}
-.mhd.sonnet{background:var(–orange);color:white}
-.mhd.haiku{background:var(–green);color:white}
-.mbd{padding:14px 18px;border-top:1px solid var(–border)}
-.mtag{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray);display:block;margin-bottom:7px}
-.mbd p{font-size:12px;line-height:1.7;color:var(–text-mid)}
-.mlatest{margin-top:7px;font-size:10.5px;color:var(–orange);font-weight:500}
+.mhd.opus{background:var(--text);color:white}
+.mhd.sonnet{background:var(--orange);color:white}
+.mhd.haiku{background:var(--green);color:white}
+.mbd{padding:14px 18px;border-top:1px solid var(--border)}
+.mtag{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:7px}
+.mbd p{font-size:12px;line-height:1.7;color:var(--text-mid)}
+.mlatest{margin-top:7px;font-size:10.5px;color:var(--orange);font-weight:500}
 
 /* TONE GRID */
-.tg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
-.tc{background:var(–bg);padding:20px 22px}
-.tc h4{font-family:var(–serif);font-size:17px;font-style:italic;font-weight:400;margin-bottom:7px}
-.tc p{font-size:12.5px;line-height:1.75;color:var(–text-mid)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.tc{background:var(--bg);padding:20px 22px}
+.tc h4{font-family:var(--serif);font-size:17px;font-style:italic;font-weight:400;margin-bottom:7px}
+.tc p{font-size:12.5px;line-height:1.75;color:var(--text-mid)}
 
 /* PLAN TABLE */
-.pt{border:1px solid var(–border);margin-top:20px}
+.pt{border:1px solid var(--border);margin-top:20px}
 .ph,.pr{display:grid;grid-template-columns:1.5fr repeat(4,1fr)}
-.ph{background:var(–bg-sub);border-bottom:1px solid var(–border)}
-.pr{border-bottom:1px solid var(–border)}
+.ph{background:var(--bg-sub);border-bottom:1px solid var(--border)}
+.pr{border-bottom:1px solid var(--border)}
 .pr:last-child{border-bottom:none}
-.phc,.prc{padding:10px 14px;border-right:1px solid var(–border);font-size:12px}
+.phc,.prc{padding:10px 14px;border-right:1px solid var(--border);font-size:12px}
 .phc:last-child,.prc:last-child{border-right:none}
-.phc{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray)}
-.prc{color:var(–text-mid);display:flex;align-items:center}
-.prc.feat{font-weight:500;color:var(–text)}
-.prc.ok{color:var(–green);font-size:14px}
-.prc.no{color:var(–border);font-size:14px}
+.phc{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)}
+.prc{color:var(--text-mid);display:flex;align-items:center}
+.prc.feat{font-weight:500;color:var(--text)}
+.prc.ok{color:var(--green);font-size:14px}
+.prc.no{color:var(--border);font-size:14px}
 
 /* COMPARE */
-.cmp{border:1px solid var(–border);margin-top:20px}
-.crow{display:grid;grid-template-columns:100px 1fr 1fr;border-bottom:1px solid var(–border)}
+.cmp{border:1px solid var(--border);margin-top:20px}
+.crow{display:grid;grid-template-columns:100px 1fr 1fr;border-bottom:1px solid var(--border)}
 .crow:last-child{border-bottom:none}
-.crow:first-child{background:var(–bg-sub)}
-.cc{padding:12px 18px;border-right:1px solid var(–border);font-size:12.5px;color:var(–text-mid);line-height:1.6}
+.crow:first-child{background:var(--bg-sub)}
+.cc{padding:12px 18px;border-right:1px solid var(--border);font-size:12.5px;color:var(--text-mid);line-height:1.6}
 .cc:last-child{border-right:none}
-.cc.lbl{font-weight:500;color:var(–text);font-size:12px}
-.cc.hd{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray)}
-.cc.hd.or{border-top:2px solid var(–orange)}
-.cc.hd.gy{border-top:2px solid var(–gray)}
+.cc.lbl{font-weight:500;color:var(--text);font-size:12px}
+.cc.hd{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)}
+.cc.hd.or{border-top:2px solid var(--orange)}
+.cc.hd.gy{border-top:2px solid var(--gray)}
 
 /* SAFETY */
-.sl{border:1px solid var(–border);margin-top:20px}
-.sli{display:grid;grid-template-columns:70px 1fr;border-bottom:1px solid var(–border)}
+.sl{border:1px solid var(--border);margin-top:20px}
+.sli{display:grid;grid-template-columns:70px 1fr;border-bottom:1px solid var(--border)}
 .sli:last-child{border-bottom:none}
-.sli-n{padding:16px;background:var(–bg-sub);border-right:1px solid var(–border);font-family:var(–serif);font-size:20px;color:var(–border);display:flex;align-items:center;justify-content:center;font-style:italic}
+.sli-n{padding:16px;background:var(--bg-sub);border-right:1px solid var(--border);font-family:var(--serif);font-size:20px;color:var(--border);display:flex;align-items:center;justify-content:center;font-style:italic}
 .sli-b{padding:14px 20px}
 .sli-b h4{font-size:13px;font-weight:500;margin-bottom:5px}
-.sli-b p{font-size:12.5px;line-height:1.7;color:var(–text-mid);margin:0}
+.sli-b p{font-size:12.5px;line-height:1.7;color:var(--text-mid);margin:0}
 
 /* USE TILES */
-.ut{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
-.utile{background:var(–bg-sub);padding:24px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
-.utile:nth-child(1){border-left:3px solid var(–text)}
-.utile:nth-child(2){border-left:3px solid var(–orange)}
-.utile:nth-child(3){border-left:3px solid var(–blue)}
-.utile:nth-child(4){border-left:3px solid var(–green)}
-.utile:nth-child(5){border-left:3px solid var(–gray)}
+.ut{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.utile{background:var(--bg-sub);padding:24px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.utile:nth-child(1){border-left:3px solid var(--text)}
+.utile:nth-child(2){border-left:3px solid var(--orange)}
+.utile:nth-child(3){border-left:3px solid var(--blue)}
+.utile:nth-child(4){border-left:3px solid var(--green)}
+.utile:nth-child(5){border-left:3px solid var(--gray)}
 .utile .ti{font-size:22px}
-.utile span{font-size:11.5px;color:var(–text-mid);line-height:1.4}
+.utile span{font-size:11.5px;color:var(--text-mid);line-height:1.4}
 
 /* QUOTE */
-.quote{border-left:2px solid var(–orange);padding:14px 18px;margin:20px 0;background:rgba(217,119,87,.04)}
-.quote p{font-family:var(–serif);font-size:16px;color:var(–text);font-style:italic;line-height:1.55;margin:0}
-.quote cite{display:block;margin-top:6px;font-size:11px;color:var(–gray);font-style:normal}
+.quote{border-left:2px solid var(--orange);padding:14px 18px;margin:20px 0;background:rgba(217,119,87,.04)}
+.quote p{font-family:var(--serif);font-size:16px;color:var(--text);font-style:italic;line-height:1.55;margin:0}
+.quote cite{display:block;margin-top:6px;font-size:11px;color:var(--gray);font-style:normal}
 
 /* BADGE */
 .badge{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor;vertical-align:middle;margin-left:8px}
-.badge.rp{color:var(–orange)}.badge.ga{color:var(–green)}
+.badge.rp{color:var(--orange)}.badge.ga{color:var(--green)}
 
 /* CLAUDE.MD SECTION */
-.claudemd-wrap{grid-column:1/-1;padding:22px 24px;border-top:1px solid var(–border)}
-.tier-table{border:1px solid var(–border);margin:10px 0}
+.claudemd-wrap{grid-column:1/-1;padding:22px 24px;border-top:1px solid var(--border)}
+.tier-table{border:1px solid var(--border);margin:10px 0}
 .tier-row{display:grid;grid-template-columns:24px 80px 1fr}
-.tier-row+.tier-row{border-top:1px solid var(–border)}
+.tier-row+.tier-row{border-top:1px solid var(--border)}
 .tier-n{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;padding:0 8px}
-.tier-lbl{padding:10px 12px;background:var(–bg-sub);border-right:1px solid var(–border);font-size:11px;font-weight:600;color:var(–text);display:flex;align-items:center}
-.tier-desc{padding:10px 14px;font-size:11.5px;color:var(–text-mid);line-height:1.65}
-.code-block{font-family:‘Courier New’,monospace;font-size:11px;line-height:1.9;color:var(–text);background:var(–bg);padding:14px 16px;border:1px solid var(–border);margin:8px 0}
+.tier-lbl{padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center}
+.tier-desc{padding:10px 14px;font-size:11.5px;color:var(--text-mid);line-height:1.65}
+.code-block{font-family:'Courier New',monospace;font-size:11px;line-height:1.9;color:var(--text);background:var(--bg);padding:14px 16px;border:1px solid var(--border);margin:8px 0}
 
 /* FOOTER */
-.footer{padding:40px 64px;border-top:1px solid var(–border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.footer{padding:40px 64px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 .fl{display:flex;gap:20px}
-.fl a{font-size:12px;color:var(–gray);text-decoration:none;transition:color .12s}
-.fl a:hover{color:var(–orange)}
-.fc2{font-size:11px;color:var(–gray)}
+.fl a{font-size:12px;color:var(--gray);text-decoration:none;transition:color .12s}
+.fl a:hover{color:var(--orange)}
+.fc2{font-size:11px;color:var(--gray)}
 
 @media(max-width:900px){
-:root{–sw:0px}
-.sidebar{display:none}
-.main{margin-left:0}
-.hero,.intro,.sec{padding:40px 20px}
-.intro,.sg{grid-template-columns:1fr;gap:16px}
-.fg,.tg,.mc{grid-template-columns:1fr}
-.pb-meta{grid-template-columns:1fr}
-.ut{grid-template-columns:repeat(3,1fr)}
-.footer{padding:28px 20px}
+  :root{--sw:0px}
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .hero,.intro,.sec{padding:40px 20px}
+  .intro,.sg{grid-template-columns:1fr;gap:16px}
+  .fg,.tg,.mc{grid-template-columns:1fr}
+  .pb-meta{grid-template-columns:1fr}
+  .ut{grid-template-columns:repeat(3,1fr)}
+  .footer{padding:28px 20px}
 }
 </style>
-
 </head>
 <body>
 
@@ -259,7 +257,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 <main class="main" id="top">
 
 <!-- HERO -->
-
 <section class="hero">
   <p class="hero-ey">Anthropic — 2026年版 はじめてのガイド</p>
   <h1 class="hero-title">Claude</h1>
@@ -267,7 +264,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- INTRO -->
-
 <section class="intro">
   <div><h2>Claudeのことを、ここで全部わかるようにしました。</h2></div>
   <div class="intro-body">
@@ -289,7 +285,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 01 OVERVIEW -->
-
 <section class="sec" id="overview">
   <div class="sg">
     <div class="slb">Claudeとは<sup>01</sup></div>
@@ -327,7 +322,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 02 PERSONALITY -->
-
 <section class="sec" id="personality">
   <div class="sg">
     <div class="slb">Claudeの性格<sup>02</sup></div>
@@ -361,7 +355,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 03 MODELS -->
-
 <section class="sec" id="models">
   <div class="sg">
     <div class="slb">モデルの種類<sup>03</sup></div>
@@ -418,7 +411,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 04 CHAT -->
-
 <section class="sec" id="chat">
   <div class="sg">
     <div class="slb">チャットで使う<sup>04</sup></div>
@@ -478,7 +470,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 05 CLAUDE CODE -->
-
 <section class="sec" id="code">
   <div class="sg">
     <div class="slb">Claude Code<sup>05</sup></div>
@@ -538,91 +529,87 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
         </div></div>
       </div>
 
-```
-  <p class="sub">CLAUDE.md — 「Claudeへの業務マニュアル」ファイル</p>
-  <div style="border:1px solid var(--border);margin-top:0">
-    <div style="padding:20px 24px">
-      <p style="font-size:14px;line-height:1.85;color:var(--text-mid);margin-bottom:12px">CLAUDE.mdとは、テキストで書いた「Claudeへの取扱説明書」です。このファイルをフォルダに置いておくと、Claude Codeを起動するたびに自動で読み込まれ、「このプロジェクトではどう動けばいいか」をClaudeが把握してから作業を始めます。</p>
-      <div class="analogy" style="margin-bottom:16px">
-        <p><strong>💡 たとえるなら…</strong> 新しいアルバイトに「うちの店のルール」を書いた紙を渡すイメージ。毎回口頭で説明しなくても、Claudeはそのルールを守って動いてくれます。</p>
-      </div>
+      <p class="sub">CLAUDE.md — 「Claudeへの業務マニュアル」ファイル</p>
+      <div style="border:1px solid var(--border);margin-top:0">
+        <div style="padding:20px 24px">
+          <p style="font-size:14px;line-height:1.85;color:var(--text-mid);margin-bottom:12px">CLAUDE.mdとは、テキストで書いた「Claudeへの取扱説明書」です。このファイルをフォルダに置いておくと、Claude Codeを起動するたびに自動で読み込まれ、「このプロジェクトではどう動けばいいか」をClaudeが把握してから作業を始めます。</p>
+          <div class="analogy" style="margin-bottom:16px">
+            <p><strong>💡 たとえるなら…</strong> 新しいアルバイトに「うちの店のルール」を書いた紙を渡すイメージ。毎回口頭で説明しなくても、Claudeはそのルールを守って動いてくれます。</p>
+          </div>
 
-      <!-- 階層図 -->
-      <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">📂 どこに置くかで効果が変わる</p>
-      <p style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:12px">CLAUDE.mdは<strong>複数の場所に置けます</strong>。置く場所によって「どの範囲に適用されるか」が変わり、近い場所のルールが優先されます。</p>
-      <div class="code-block" style="font-family:'Courier New',monospace;font-size:11px;line-height:2;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
-        <span style="color:var(--gray)"># フォルダの構成イメージ</span><br>
-        <span style="color:var(--blue);font-weight:600">ホームフォルダ（自分のパソコン全体）</span><br>
-        <span style="color:var(--text-lt)">└── CLAUDE.md</span>
-        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--blue);background:rgba(106,155,204,.1);padding:1px 6px;border:1px solid rgba(106,155,204,.3)">① 全プロジェクト共通のルール</span><br><br>
-        <span style="color:var(--orange);font-weight:600">営業ツール/（特定の仕事フォルダ）</span><br>
-        <span style="color:var(--text-lt)">├── CLAUDE.md</span>
-        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--orange);background:rgba(217,119,87,.08);padding:1px 6px;border:1px solid rgba(217,119,87,.25)">② この仕事専用のルール</span><br>
-        <span style="color:var(--text-lt)">│</span><br>
-        <span style="color:var(--text-lt)">├── ソースコード/</span><br>
-        <span style="color:var(--text-lt)">│   └── CLAUDE.md</span>
-        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span><br>
-        <span style="color:var(--text-lt)">│</span><br>
-        <span style="color:var(--text-lt)">└── ドキュメント/</span><br>
-        <span style="color:var(--text-lt)">　　└── CLAUDE.md</span>
-        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span>
-      </div>
+          <!-- 階層図 -->
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">📂 どこに置くかで効果が変わる</p>
+          <p style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:12px">CLAUDE.mdは<strong>複数の場所に置けます</strong>。置く場所によって「どの範囲に適用されるか」が変わり、近い場所のルールが優先されます。</p>
+          <div class="code-block" style="font-family:'Courier New',monospace;font-size:11px;line-height:2;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
+            <span style="color:var(--gray)"># フォルダの構成イメージ</span><br>
+            <span style="color:var(--blue);font-weight:600">ホームフォルダ（自分のパソコン全体）</span><br>
+            <span style="color:var(--text-lt)">└── CLAUDE.md</span>
+            <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--blue);background:rgba(106,155,204,.1);padding:1px 6px;border:1px solid rgba(106,155,204,.3)">① 全プロジェクト共通のルール</span><br><br>
+            <span style="color:var(--orange);font-weight:600">営業ツール/（特定の仕事フォルダ）</span><br>
+            <span style="color:var(--text-lt)">├── CLAUDE.md</span>
+            <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--orange);background:rgba(217,119,87,.08);padding:1px 6px;border:1px solid rgba(217,119,87,.25)">② この仕事専用のルール</span><br>
+            <span style="color:var(--text-lt)">│</span><br>
+            <span style="color:var(--text-lt)">├── ソースコード/</span><br>
+            <span style="color:var(--text-lt)">│   └── CLAUDE.md</span>
+            <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span><br>
+            <span style="color:var(--text-lt)">│</span><br>
+            <span style="color:var(--text-lt)">└── ドキュメント/</span><br>
+            <span style="color:var(--text-lt)">　　└── CLAUDE.md</span>
+            <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span>
+          </div>
 
-      <div style="border:1px solid var(--border);margin-top:10px">
-        <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
-          <div style="background:var(--blue);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">①</div>
-          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">全共通</div>
-          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">ホームフォルダに置く。「私はいつも日本語で答えて」「説明は短めにして」など、<strong>どの仕事でも共通の自分ルール</strong>を書く。</div>
+          <div style="border:1px solid var(--border);margin-top:10px">
+            <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
+              <div style="background:var(--blue);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">①</div>
+              <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">全共通</div>
+              <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">ホームフォルダに置く。「私はいつも日本語で答えて」「説明は短めにして」など、<strong>どの仕事でも共通の自分ルール</strong>を書く。</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
+              <div style="background:var(--orange);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">②</div>
+              <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">仕事別</div>
+              <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">仕事フォルダのトップに置く。「この仕事はPythonで」「テストは必ず書いて」など<strong>この仕事全体のルール</strong>。チームで共有できる。</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 80px 1fr">
+              <div style="background:var(--green);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">③</div>
+              <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">場所別</div>
+              <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">特定のフォルダ内に置く。「ここのファイルは触る前に必ず確認して」など<strong>そのフォルダだけの細かいルール</strong>。②のルールより優先される。</div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--gray);margin-top:7px">読み込み順：① → ② → ③ の順に読まれ、後から読んだものが優先されます。</p>
+
+          <!-- 書き方例 -->
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin:16px 0 8px">✏️ 実際の書き方の例（そのままコピーして使えます）</p>
+          <div style="font-family:'Courier New',monospace;font-size:11px;line-height:1.9;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
+            <span style="color:var(--gray)"># この仕事について</span><br>
+            営業チーム向けの顧客管理ツールです。<br><br>
+            <span style="color:var(--gray)"># 言葉のルール</span><br>
+            - コードのコメントと説明は<strong>必ず日本語</strong>で書いてください<br>
+            - 難しい用語は使わず、わかりやすく説明してください<br><br>
+            <span style="color:var(--gray)"># 作業のルール</span><br>
+            - 新しい機能を追加したら、必ずテストも書いてください<br>
+            - 大きな変更の前に、「こうしようとしています」と教えてください<br><br>
+            <span style="color:var(--gray)"># ⚠️ 絶対にやらないでほしいこと</span><br>
+            - お客様の個人情報を外部に送らないでください<br>
+            - 本番のデータベースに直接書き込まないでください
+          </div>
+
+          <div class="box" style="margin-top:12px"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>コーディングのルールを書いておいて、毎回言わなくても自動で守らせる</li><li>「やってはいけないこと」を明示して、Claudeが誤って重要なファイルを触らないようにする</li><li>「変更前に必ず報告して」と書いて、不意の書き換えを防ぐ安全装置として使う</li></ul></div>
+          <div class="box adv" style="margin-top:8px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>チームのフォルダにCLAUDE.mdを一つ置くだけで、チーム全員が同じルールでClaudeを使える環境が整う</li><li>非エンジニアの方は「私はプログラムがわかりません。変更する前に何をするか日本語で説明してください」と書いておくと安心して使える</li><li>「このフォルダは本番環境に直結しているので、触る前に必ず確認を求めて」と書いて大事なファイルを守る</li></ul></div>
         </div>
-        <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
-          <div style="background:var(--orange);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">②</div>
-          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">仕事別</div>
-          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">仕事フォルダのトップに置く。「この仕事はPythonで」「テストは必ず書いて」など<strong>この仕事全体のルール</strong>。チームで共有できる。</div>
-        </div>
-        <div style="display:grid;grid-template-columns:24px 80px 1fr">
-          <div style="background:var(--green);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">③</div>
-          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">場所別</div>
-          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">特定のフォルダ内に置く。「ここのファイルは触る前に必ず確認して」など<strong>そのフォルダだけの細かいルール</strong>。②のルールより優先される。</div>
-        </div>
-      </div>
-      <p style="font-size:11px;color:var(--gray);margin-top:7px">読み込み順：① → ② → ③ の順に読まれ、後から読んだものが優先されます。</p>
-
-      <!-- 書き方例 -->
-      <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin:16px 0 8px">✏️ 実際の書き方の例（そのままコピーして使えます）</p>
-      <div style="font-family:'Courier New',monospace;font-size:11px;line-height:1.9;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
-        <span style="color:var(--gray)"># この仕事について</span><br>
-        営業チーム向けの顧客管理ツールです。<br><br>
-        <span style="color:var(--gray)"># 言葉のルール</span><br>
-        - コードのコメントと説明は<strong>必ず日本語</strong>で書いてください<br>
-        - 難しい用語は使わず、わかりやすく説明してください<br><br>
-        <span style="color:var(--gray)"># 作業のルール</span><br>
-        - 新しい機能を追加したら、必ずテストも書いてください<br>
-        - 大きな変更の前に、「こうしようとしています」と教えてください<br><br>
-        <span style="color:var(--gray)"># ⚠️ 絶対にやらないでほしいこと</span><br>
-        - お客様の個人情報を外部に送らないでください<br>
-        - 本番のデータベースに直接書き込まないでください
       </div>
 
-      <div class="box" style="margin-top:12px"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>コーディングのルールを書いておいて、毎回言わなくても自動で守らせる</li><li>「やってはいけないこと」を明示して、Claudeが誤って重要なファイルを触らないようにする</li><li>「変更前に必ず報告して」と書いて、不意の書き換えを防ぐ安全装置として使う</li></ul></div>
-      <div class="box adv" style="margin-top:8px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>チームのフォルダにCLAUDE.mdを一つ置くだけで、チーム全員が同じルールでClaudeを使える環境が整う</li><li>非エンジニアの方は「私はプログラムがわかりません。変更する前に何をするか日本語で説明してください」と書いておくと安心して使える</li><li>「このフォルダは本番環境に直結しているので、触る前に必ず確認を求めて」と書いて大事なファイルを守る</li></ul></div>
+      <p class="sub">インストール方法（4ステップ）</p>
+      <div class="steps">
+        <div class="si"><div class="sn">1</div><div class="sc"><h4>Node.jsをインストールする</h4><p>Claude Codeを動かすために必要なソフト（Node.js）を公式サイトからダウンロードしてインストールします。無料です。</p></div></div>
+        <div class="si"><div class="sn">2</div><div class="sc"><h4>Claude Codeをインストールする</h4><p>黒い画面（ターミナル）を開いて <code>npm install -g @anthropic-ai/claude-code</code> と入力してEnterキーを押します。自動でインストールされます。</p></div></div>
+        <div class="si"><div class="sn">3</div><div class="sc"><h4>Claudeを起動する</h4><p>作業したいフォルダに移動して <code>claude</code> と入力してEnterキー。初回はAnthropicのアカウントでログインが必要です。</p></div></div>
+        <div class="si"><div class="sn">4</div><div class="sc"><h4>やってほしいことを伝える</h4><p>「このバグを直してください」「テストを書いてください」など、普通の日本語で伝えるだけ。Claudeが計画を立てて作業を始めます。</p></div></div>
+      </div>
     </div>
-  </div>
-
-  <p class="sub">インストール方法（4ステップ）</p>
-  <div class="steps">
-    <div class="si"><div class="sn">1</div><div class="sc"><h4>Node.jsをインストールする</h4><p>Claude Codeを動かすために必要なソフト（Node.js）を公式サイトからダウンロードしてインストールします。無料です。</p></div></div>
-    <div class="si"><div class="sn">2</div><div class="sc"><h4>Claude Codeをインストールする</h4><p>黒い画面（ターミナル）を開いて <code>npm install -g @anthropic-ai/claude-code</code> と入力してEnterキーを押します。自動でインストールされます。</p></div></div>
-    <div class="si"><div class="sn">3</div><div class="sc"><h4>Claudeを起動する</h4><p>作業したいフォルダに移動して <code>claude</code> と入力してEnterキー。初回はAnthropicのアカウントでログインが必要です。</p></div></div>
-    <div class="si"><div class="sn">4</div><div class="sc"><h4>やってほしいことを伝える</h4><p>「このバグを直してください」「テストを書いてください」など、普通の日本語で伝えるだけ。Claudeが計画を立てて作業を始めます。</p></div></div>
-  </div>
-</div>
-```
-
   </div>
 </section>
 
 <!-- 06 COWORK -->
-
 <section class="sec" id="cowork">
   <div class="sg">
     <div class="slb">Claude Cowork<sup>06</sup></div>
@@ -693,7 +680,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 07 CHROME -->
-
 <section class="sec" id="chrome">
   <div class="sg">
     <div class="slb">ブラウザで使う<sup>07</sup></div>
@@ -744,7 +730,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 08 OFFICE -->
-
 <section class="sec" id="office">
   <div class="sg">
     <div class="slb">ExcelやPowerPoint<sup>08</sup></div>
@@ -786,7 +771,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 09 CAPABILITIES -->
-
 <section class="sec" id="capabilities">
   <div class="sg">
     <div class="slb">できることまとめ<sup>09</sup></div>
@@ -832,7 +816,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- 10 SAFETY -->
-
 <section class="sec" id="safety">
   <div class="sg">
     <div class="slb">安全性への姿勢<sup>10</sup></div>
@@ -859,7 +842,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </section>
 
 <!-- FOOTER -->
-
 <footer class="footer">
   <div class="fl">
     <a href="https://claude.ai" target="_blank">Claude.ai</a>
@@ -888,6 +870,5 @@ const io = new IntersectionObserver(es => {
 }, { threshold: 0.2, rootMargin: '-15% 0px -60% 0px' });
 secs.forEach(s => io.observe(s));
 </script>
-
 </body>
 </html>

@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude 完全ガイド — Anthropic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #faf9f5;
+  --bg-sub:   #f0ede6;
+  --orange:   #d97757;
+  --blue:     #6a9bcc;
+  --green:    #788c5d;
+  --gray:     #b0aea5;
+  --text:     #141413;
+  --text-mid: #3d3c38;
+  --text-lt:  #6e6d68;
+  --border:   #e0ddd6;
+  --serif: 'Instrument Serif', ui-serif, Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --sw: 260px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:15px;line-height:1.6}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(–sw);height:100vh;background:var(–bg);border-right:1px solid var(–border);display:flex;flex-direction:column;z-index:200;overflow-y:auto}
+.s-logo{display:flex;align-items:center;gap:10px;padding:22px 24px 20px;border-bottom:1px solid var(–border);text-decoration:none;flex-shrink:0}
+.s-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-icon svg{width:26px;height:26px}
+.s-name{font-family:var(–serif);font-size:16px;color:var(–text);letter-spacing:-.01em}
+.s-group{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(–gray);padding:10px 24px 3px}
+.s-item{display:flex;align-items:baseline;justify-content:space-between;padding:8px 24px;text-decoration:none;color:var(–text-lt);font-size:13px;transition:color .12s,background .12s;position:relative}
+.s-item:hover{color:var(–orange);background:rgba(217,119,87,.05)}
+.s-item.active{color:var(–orange);font-weight:500;background:rgba(217,119,87,.07)}
+.s-item.active::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:2px;background:var(–orange)}
+.s-num{font-size:9px;color:var(–gray);font-weight:500}
+.s-foot{padding:14px 24px;border-top:1px solid var(–border);display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+.s-foot a{color:var(–gray);font-size:12px;text-decoration:none;transition:color .12s}
+.s-foot a:hover{color:var(–orange)}
+
+/* MAIN */
+.main{margin-left:var(–sw);flex:1}
+
+/* HERO */
+.hero{background:var(–bg);border-bottom:1px solid var(–border);padding:88px 64px 80px;position:relative;overflow:hidden}
+.hero::after{content:’’;position:absolute;top:-60px;right:-40px;width:320px;height:320px;border-radius:50%;background:rgba(217,119,87,.07);pointer-events:none}
+.hero-ey{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(–orange);margin-bottom:22px}
+.hero-title{font-family:var(–serif);font-size:clamp(64px,9vw,112px);color:var(–text);letter-spacing:-.03em;line-height:1;font-weight:400;margin-bottom:24px}
+.hero-sub{font-size:clamp(14px,1.6vw,17px);color:var(–text-lt);max-width:520px;line-height:1.75;font-weight:300}
+
+/* INTRO */
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:72px 64px;border-bottom:1px solid var(–border)}
+.intro h2{font-family:var(–serif);font-size:clamp(28px,3vw,44px);line-height:1.15;font-weight:400;letter-spacing:-.02em}
+.intro-body p{font-size:14px;line-height:1.85;color:var(–text-mid);margin-bottom:16px}
+.toc{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.toc li{display:flex;gap:12px;font-size:13px;color:var(–text-mid);line-height:1.5}
+.toc-n{color:var(–orange);font-weight:600;font-size:10px;min-width:20px;padding-top:2px;flex-shrink:0}
+
+/* SECTION */
+.sec{padding:80px 64px;border-bottom:1px solid var(–border)}
+.sg{display:grid;grid-template-columns:180px 1fr;gap:56px}
+.slb{font-size:12px;font-weight:500;color:var(–gray);padding-top:5px}
+.slb sup{font-size:8px;color:var(–gray);vertical-align:super;margin-left:2px}
+.sbody h3{font-family:var(–serif);font-size:clamp(24px,2.6vw,38px);font-weight:400;line-height:1.2;letter-spacing:-.02em;margin-bottom:18px}
+.sbody>p{font-size:14px;line-height:1.85;color:var(–text-mid);margin-bottom:14px;max-width:680px}
+.sub{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(–gray);margin:36px 0 12px}
+
+/* ANALOGY BOX（たとえ話） */
+.analogy{background:rgba(217,119,87,.06);border:1px solid rgba(217,119,87,.2);border-left:3px solid var(–orange);padding:14px 18px;margin-bottom:20px}
+.analogy p{font-size:13.5px;color:var(–text-mid);line-height:1.8;margin:0}
+.analogy strong{color:var(–text)}
+
+/* PRODUCT BANNER */
+.pb{background:var(–bg-sub);border:1px solid var(–border);padding:34px 40px;display:flex;align-items:center;gap:32px;margin-top:8px}
+.pb.or{border-left:4px solid var(–orange)}
+.pb.gr{border-left:4px solid var(–green)}
+.pb.bl{border-left:4px solid var(–blue)}
+.pb-t{flex:1}
+.pb-ey{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.pb.or .pb-ey{color:var(–orange)}.pb.gr .pb-ey{color:var(–green)}.pb.bl .pb-ey{color:var(–blue)}
+.pb-title{font-family:var(–serif);font-size:clamp(20px,2.4vw,32px);color:var(–text);font-weight:400;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.pb-sub{font-size:13px;color:var(–text-lt);line-height:1.65;max-width:420px}
+.pb-icon{font-size:38px;flex-shrink:0;opacity:.85}
+.pb-meta{background:var(–bg);border:1px solid var(–border);border-top:none;padding:18px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pb-ml{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(–gray);margin-bottom:4px}
+.pb-mv{font-size:12.5px;color:var(–text);line-height:1.5}
+
+/* FEAT GRID */
+.fg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(–border);margin-top:20px}
+.fc{padding:22px 24px;border-right:1px solid var(–border);border-bottom:1px solid var(–border);display:flex;gap:14px;align-items:flex-start}
+.fc:nth-child(even){border-right:none}
+.fc:nth-last-child(-n+2){border-bottom:none}
+.fi{width:32px;height:32px;flex-shrink:0;background:var(–bg-sub);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;font-size:14px}
+.ft h4{font-size:13px;font-weight:500;margin-bottom:5px}
+.ft p{font-size:12px;line-height:1.7;color:var(–text-lt);margin:0}
+
+/* EXAMPLE / ADVANCED BOXES */
+.box{border:1px solid var(–border);margin-top:8px}
+.bh{display:flex;align-items:center;gap:7px;padding:7px 12px;background:var(–bg-sub);border-bottom:1px solid var(–border)}
+.bd{width:6px;height:6px;border-radius:50%;background:var(–orange);flex-shrink:0}
+.box.adv .bd{background:var(–blue)}
+.bl2{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(–text-lt)}
+.box ul{list-style:none;padding:9px 12px;display:flex;flex-direction:column;gap:5px}
+.box ul li{font-size:12px;color:var(–text-mid);display:flex;gap:7px;align-items:baseline;line-height:1.6}
+.box ul li::before{content:‘→’;color:var(–orange);font-size:10px;flex-shrink:0}
+.box.adv ul li::before{color:var(–blue)}
+
+/* STEPS */
+.steps{border:1px solid var(–border);margin-top:20px}
+.si{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(–border)}
+.si:last-child{border-bottom:none}
+.sn{padding:16px;background:var(–bg-sub);border-right:1px solid var(–border);font-family:var(–serif);font-size:20px;color:var(–border);display:flex;align-items:center;justify-content:center;font-style:italic}
+.sc{padding:14px 20px}
+.sc h4{font-size:13px;font-weight:500;margin-bottom:4px}
+.sc p{font-size:12.5px;line-height:1.7;color:var(–text-mid);margin:0}
+
+/* MODEL CARDS */
+.mc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
+.mcard{background:var(–bg)}
+.mhd{padding:14px 18px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.mhd.opus{background:var(–text);color:white}
+.mhd.sonnet{background:var(–orange);color:white}
+.mhd.haiku{background:var(–green);color:white}
+.mbd{padding:14px 18px;border-top:1px solid var(–border)}
+.mtag{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray);display:block;margin-bottom:7px}
+.mbd p{font-size:12px;line-height:1.7;color:var(–text-mid)}
+.mlatest{margin-top:7px;font-size:10.5px;color:var(–orange);font-weight:500}
+
+/* TONE GRID */
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
+.tc{background:var(–bg);padding:20px 22px}
+.tc h4{font-family:var(–serif);font-size:17px;font-style:italic;font-weight:400;margin-bottom:7px}
+.tc p{font-size:12.5px;line-height:1.75;color:var(–text-mid)}
+
+/* PLAN TABLE */
+.pt{border:1px solid var(–border);margin-top:20px}
+.ph,.pr{display:grid;grid-template-columns:1.5fr repeat(4,1fr)}
+.ph{background:var(–bg-sub);border-bottom:1px solid var(–border)}
+.pr{border-bottom:1px solid var(–border)}
+.pr:last-child{border-bottom:none}
+.phc,.prc{padding:10px 14px;border-right:1px solid var(–border);font-size:12px}
+.phc:last-child,.prc:last-child{border-right:none}
+.phc{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray)}
+.prc{color:var(–text-mid);display:flex;align-items:center}
+.prc.feat{font-weight:500;color:var(–text)}
+.prc.ok{color:var(–green);font-size:14px}
+.prc.no{color:var(–border);font-size:14px}
+
+/* COMPARE */
+.cmp{border:1px solid var(–border);margin-top:20px}
+.crow{display:grid;grid-template-columns:100px 1fr 1fr;border-bottom:1px solid var(–border)}
+.crow:last-child{border-bottom:none}
+.crow:first-child{background:var(–bg-sub)}
+.cc{padding:12px 18px;border-right:1px solid var(–border);font-size:12.5px;color:var(–text-mid);line-height:1.6}
+.cc:last-child{border-right:none}
+.cc.lbl{font-weight:500;color:var(–text);font-size:12px}
+.cc.hd{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(–gray)}
+.cc.hd.or{border-top:2px solid var(–orange)}
+.cc.hd.gy{border-top:2px solid var(–gray)}
+
+/* SAFETY */
+.sl{border:1px solid var(–border);margin-top:20px}
+.sli{display:grid;grid-template-columns:70px 1fr;border-bottom:1px solid var(–border)}
+.sli:last-child{border-bottom:none}
+.sli-n{padding:16px;background:var(–bg-sub);border-right:1px solid var(–border);font-family:var(–serif);font-size:20px;color:var(–border);display:flex;align-items:center;justify-content:center;font-style:italic}
+.sli-b{padding:14px 20px}
+.sli-b h4{font-size:13px;font-weight:500;margin-bottom:5px}
+.sli-b p{font-size:12.5px;line-height:1.7;color:var(–text-mid);margin:0}
+
+/* USE TILES */
+.ut{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(–border);border:1px solid var(–border);margin-top:20px}
+.utile{background:var(–bg-sub);padding:24px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.utile:nth-child(1){border-left:3px solid var(–text)}
+.utile:nth-child(2){border-left:3px solid var(–orange)}
+.utile:nth-child(3){border-left:3px solid var(–blue)}
+.utile:nth-child(4){border-left:3px solid var(–green)}
+.utile:nth-child(5){border-left:3px solid var(–gray)}
+.utile .ti{font-size:22px}
+.utile span{font-size:11.5px;color:var(–text-mid);line-height:1.4}
+
+/* QUOTE */
+.quote{border-left:2px solid var(–orange);padding:14px 18px;margin:20px 0;background:rgba(217,119,87,.04)}
+.quote p{font-family:var(–serif);font-size:16px;color:var(–text);font-style:italic;line-height:1.55;margin:0}
+.quote cite{display:block;margin-top:6px;font-size:11px;color:var(–gray);font-style:normal}
+
+/* BADGE */
+.badge{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor;vertical-align:middle;margin-left:8px}
+.badge.rp{color:var(–orange)}.badge.ga{color:var(–green)}
+
+/* CLAUDE.MD SECTION */
+.claudemd-wrap{grid-column:1/-1;padding:22px 24px;border-top:1px solid var(–border)}
+.tier-table{border:1px solid var(–border);margin:10px 0}
+.tier-row{display:grid;grid-template-columns:24px 80px 1fr}
+.tier-row+.tier-row{border-top:1px solid var(–border)}
+.tier-n{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;padding:0 8px}
+.tier-lbl{padding:10px 12px;background:var(–bg-sub);border-right:1px solid var(–border);font-size:11px;font-weight:600;color:var(–text);display:flex;align-items:center}
+.tier-desc{padding:10px 14px;font-size:11.5px;color:var(–text-mid);line-height:1.65}
+.code-block{font-family:‘Courier New’,monospace;font-size:11px;line-height:1.9;color:var(–text);background:var(–bg);padding:14px 16px;border:1px solid var(–border);margin:8px 0}
+
+/* FOOTER */
+.footer{padding:40px 64px;border-top:1px solid var(–border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.fl{display:flex;gap:20px}
+.fl a{font-size:12px;color:var(–gray);text-decoration:none;transition:color .12s}
+.fl a:hover{color:var(–orange)}
+.fc2{font-size:11px;color:var(–gray)}
+
+@media(max-width:900px){
+:root{–sw:0px}
+.sidebar{display:none}
+.main{margin-left:0}
+.hero,.intro,.sec{padding:40px 20px}
+.intro,.sg{grid-template-columns:1fr;gap:16px}
+.fg,.tg,.mc{grid-template-columns:1fr}
+.pb-meta{grid-template-columns:1fr}
+.ut{grid-template-columns:repeat(3,1fr)}
+.footer{padding:28px 20px}
+}
+</style>
+
+</head>
+<body>
+
+<aside class="sidebar">
+  <a href="#top" class="s-logo">
+    <div class="s-icon">
+      <svg viewBox="0 0 16 16" fill="var(--orange)" xmlns="http://www.w3.org/2000/svg">
+        <path d="m3.127 10.604 3.135-1.76.053-.153-.053-.085H6.11l-.525-.032-1.791-.048-1.554-.065-1.505-.08-.38-.081L0 7.832l.036-.234.32-.214.455.04 1.009.069 1.513.105 1.097.064 1.626.17h.259l.036-.105-.089-.065-.068-.064-1.566-1.062-1.695-1.121-.887-.646-.48-.327-.243-.306-.104-.67.435-.48.585.04.15.04.593.456 1.267.981 1.654 1.218.242.202.097-.068.012-.049-.109-.181-.9-1.626-.96-1.655-.428-.686-.113-.411a2 2 0 0 1-.068-.484l.496-.674L4.446 0l.662.089.279.242.411.94.666 1.48 1.033 2.014.302.597.162.553.06.17h.105v-.097l.085-1.134.157-1.392.154-1.792.052-.504.25-.605.497-.327.387.186.319.456-.045.294-.19 1.23-.37 1.93-.243 1.29h.142l.161-.16.654-.868 1.097-1.372.484-.545.565-.601.363-.287h.686l.505.751-.226.775-.707.895-.585.759-.839 1.13-.524.904.048.072.125-.012 1.897-.403 1.024-.186 1.223-.21.553.258.06.263-.218.536-1.307.323-1.533.307-2.284.54-.028.02.032.04 1.029.832.744.694.655.59.38.448.133.44-.237.378-.48-.036-.42-.128-.544-.42-.716-.462-1.046-.832-1.075-.895-.137-.11-.068.02-.04.109.016 1.462.012 1.048-.012.986-.044.395-.201.346-.415.15-.387-.08-.298-.416-.056-.345.048-.976.068-1.724.024-1.302-.02-.109-.052-.02-.077.065-.48.84-.832 1.446-.663 1.174-.404.49-.475.233-.453-.145-.27-.43.04-.408.166-.39.477-.763.706-1.134.637-1.13.36-.673.016-.093-.064-.012-1.266.578-1.01.477-.788.36-1.095.468-.42.105-.44-.13-.22-.376.068-.444.344-.299.633-.267 1.06-.447 1.246-.527 1.834-.777.037-.02-.02-.044"/>
+      </svg>
+    </div>
+    <span class="s-name">Claude</span>
+  </a>
+  <nav>
+    <div class="s-group">基礎を知る</div>
+    <a href="#overview"     class="s-item active">Claudeとは <span class="s-num">01</span></a>
+    <a href="#personality"  class="s-item">Claudeの性格 <span class="s-num">02</span></a>
+    <a href="#models"       class="s-item">モデルの種類 <span class="s-num">03</span></a>
+    <div class="s-group" style="margin-top:6px">使い方を知る</div>
+    <a href="#chat"         class="s-item">チャットで使う <span class="s-num">04</span></a>
+    <a href="#code"         class="s-item">Claude Code <span class="s-num">05</span></a>
+    <a href="#cowork"       class="s-item">Claude Cowork <span class="s-num">06</span></a>
+    <a href="#chrome"       class="s-item">ブラウザで使う <span class="s-num">07</span></a>
+    <a href="#office"       class="s-item">ExcelやPowerPoint <span class="s-num">08</span></a>
+    <div class="s-group" style="margin-top:6px">もっと深く知る</div>
+    <a href="#capabilities" class="s-item">できることまとめ <span class="s-num">09</span></a>
+    <a href="#safety"       class="s-item">安全性への姿勢 <span class="s-num">10</span></a>
+  </nav>
+  <div class="s-foot">
+    <a href="https://claude.ai" target="_blank">↗ Claude.aiを開く</a>
+    <a href="https://anthropic.com" target="_blank">↗ Anthropicについて</a>
+  </div>
+</aside>
+
+<main class="main" id="top">
+
+<!-- HERO -->
+
+<section class="hero">
+  <p class="hero-ey">Anthropic — 2026年版 はじめてのガイド</p>
+  <h1 class="hero-title">Claude</h1>
+  <p class="hero-sub">AIって難しそう？大丈夫です。このページを読めば、Claudeがどんなものか、何ができるのかがまるごとわかります。</p>
+</section>
+
+<!-- INTRO -->
+
+<section class="intro">
+  <div><h2>Claudeのことを、ここで全部わかるようにしました。</h2></div>
+  <div class="intro-body">
+    <p>ClaudeはAnthropic（アンソロピック）という会社が作ったAIアシスタントです。「AIって何ができるの？」「使い方がよくわからない」という方のために、専門用語を使わず、わかりやすく解説します。</p>
+    <p>チャットで質問に答えてもらうだけでなく、パソコンの作業を丸ごと代わりにやってもらったり、ExcelやPowerPointの中から直接使ったりと、使い方はどんどん広がっています。</p>
+    <ul class="toc">
+      <li><span class="toc-n">01</span> Claudeとは — Anthropicってどんな会社？</li>
+      <li><span class="toc-n">02</span> Claudeの性格 — どんなふうに話しかけてくる？</li>
+      <li><span class="toc-n">03</span> モデルの種類 — OpusとSonnetとHaikuの違いは？</li>
+      <li><span class="toc-n">04</span> チャットで使う — いちばん基本の使い方</li>
+      <li><span class="toc-n">05</span> Claude Code — プログラマー向けの強力な機能</li>
+      <li><span class="toc-n">06</span> Claude Cowork — 仕事を丸投げできる新機能</li>
+      <li><span class="toc-n">07</span> ブラウザで使う — ウェブの操作も自動化</li>
+      <li><span class="toc-n">08</span> ExcelやPowerPoint — Officeの中から使える</li>
+      <li><span class="toc-n">09</span> できることまとめ — どんな仕事に使えるの？</li>
+      <li><span class="toc-n">10</span> 安全性への姿勢 — 信頼できるAIとは？</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 01 OVERVIEW -->
+
+<section class="sec" id="overview">
+  <div class="sg">
+    <div class="slb">Claudeとは<sup>01</sup></div>
+    <div class="sbody">
+      <h3>「賢いだけ」じゃなく、「信頼できる」AIを目指している。</h3>
+      <p>世の中にはたくさんのAIがありますが、Claudeを作っているAnthropicという会社は少し違う考え方をしています。「AIは賢ければいい」ではなく、「賢くて、かつ安全で、信頼できるAIを作る」ということを最大の目標にしています。</p>
+      <p>Claudeは、嘘をつかない・危険なことには協力しない・わからないことは「わかりません」と正直に言う、という姿勢を大切にしています。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 賢くて正直な「友人」のようなAIです。なんでも「はい、できます！」と言うのではなく、できないことはできないと伝え、正確な情報を届けようとします。</p>
+      </div>
+      <div class="fg">
+        <div class="fc"><div class="fi">🏛️</div><div class="ft">
+          <h4>Anthropicってどんな会社？</h4>
+          <p>2021年に設立されたAI企業。「AIを安全に発展させること」を最大のミッションとしています。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">ポイント</span></div><ul><li>AIの安全性を研究する専門家が集まって作った会社</li><li>「速く広める」より「安全に作る」を優先している</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📜</div><div class="ft">
+          <h4>Constitutional AI（CAI）って何？</h4>
+          <p>Claudeが「なぜそれがダメなのか」を理解して行動するための、Anthropic独自のトレーニング方法です。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">わかりやすく言うと</span></div><ul><li>ルールを覚えさせるのではなく「なぜそのルールがあるか」を理解させる</li><li>人間の道徳教育に近いアプローチで訓練されている</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🌐</div><div class="ft">
+          <h4>どうやって使うの？</h4>
+          <p>いくつかの使い方があり、目的によって最適な方法が変わります。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">選び方の目安</span></div><ul><li>まず試したい → ブラウザで Claude.ai にアクセスするだけ</li><li>プログラム開発に使いたい → Claude Code</li><li>仕事をまるごと任せたい → Claude Cowork</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📈</div><div class="ft">
+          <h4>どれくらい使われているの？</h4>
+          <p>2026年初頭の時点で、開発者向けの「Claude Code」だけで年間2,500億円以上の売上を記録するほど急成長中です。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">規模感</span></div><ul><li>企業での採用も急増し、わずか8ヶ月で売上が約5倍になった</li><li>世界中の企業・個人が業務で使い始めている</li></ul></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PERSONALITY -->
+
+<section class="sec" id="personality">
+  <div class="sg">
+    <div class="slb">Claudeの性格<sup>02</sup></div>
+    <div class="sbody">
+      <h3>Claudeには「人格」がある。</h3>
+      <p>Claudeには、設計として持たせた「性格」があります。フレンドリーでも馴れ馴れしくなく、頭がいいけど偉そうじゃない、丁寧だけどおべっかを使わない——そんな「ちょうどいい」対話相手として設計されています。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 「なんでも褒めてくれるイエスマン」ではなく、「正直に言ってくれる賢い友人」のイメージです。間違いは間違いと指摘し、わからないことはわからないと伝えます。</p>
+      </div>
+      <div class="tg">
+        <div class="tc"><h4>好奇心旺盛</h4><p>どんな話題にも真剣に向き合います。料理の話でも、難しい法律の話でも、Claudeは興味を持って一緒に考えようとします。</p></div>
+        <div class="tc"><h4>率直で正直</h4><p>知らないことは「知りません」、自信がないことは「これは推測ですが」と伝えます。あなたに気に入られるより、正確な情報を届けることを大切にしています。</p></div>
+        <div class="tc"><h4>共感と配慮</h4><p>悩みを話しても、一方的に解決策を押しつけません。まずあなたの気持ちに寄り添い、それから一緒に考えてくれます。</p></div>
+        <div class="tc"><h4>場に合ったユーモア</h4><p>真面目な場面では真面目に、気軽な雑談では少し軽くなります。場の空気を読んで話し方を変えてくれます。</p></div>
+      </div>
+      <p class="sub">会話の中でよく感じること</p>
+      <div class="box" style="margin-top:0"><div class="bh"><div class="bd"></div><span class="bl2">Claudeらしい言葉の使い方</span></div><ul>
+        <li>「確信はありませんが、おそらく〜だと思います」——不確かなことは必ず断りを入れる</li>
+        <li>「少し別の視点からも考えてみましょうか？」——反論するときも穏やかに</li>
+        <li>相手が専門家ならば専門用語で、初心者ならばかみ砕いた言葉で話す</li>
+        <li>必要な長さだけ答える。長く書けばいいとは思っていない</li>
+      </ul></div>
+      <div class="box adv" style="margin-top:8px"><div class="bh"><div class="bd"></div><span class="bl2">もっと上手く使うコツ</span></div><ul>
+        <li>「遠慮なく批判的なフィードバックをください」と伝えると、本音の改善点を引き出せる</li>
+        <li>「私は〇〇の専門家です」「私は初心者です」と自己紹介すると、最初から最適なレベルで話してくれる</li>
+        <li>「私の主張の弱点を指摘してください」と頼むと、自分の考えを強くするために使える</li>
+        <li>感情的なことを相談するときは「まず話を聞いてほしい」と最初に伝えると、解決策より共感を優先してくれる</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 MODELS -->
+
+<section class="sec" id="models">
+  <div class="sg">
+    <div class="slb">モデルの種類<sup>03</sup></div>
+    <div class="sbody">
+      <h3>Claudeには3つのグレードがある。</h3>
+      <p>Claudeは「Opus（オーパス）」「Sonnet（ソネット）」「Haiku（ハイク）」という3つのグレードがあります。賢さとスピードと料金のバランスが異なり、使い道によって最適なものが変わります。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> タクシーに「普通・ハイヤー・高級リムジン」があるようなイメージです。目的地までの移動なら普通で十分、大切な商談なら高級にする、という選び方ができます。</p>
+      </div>
+      <div class="mc">
+        <div class="mcard">
+          <div class="mhd opus">Claude Opus</div>
+          <div class="mbd">
+            <span class="mtag">最も賢い・高機能</span>
+            <p>難しい問題でも深く考えます。長い文章の分析や、複雑な判断が必要なときに向いています。</p>
+            <div class="mlatest">最新: Claude Opus 4.6</div>
+            <div class="box" style="margin-top:10px"><div class="bh"><div class="bd"></div><span class="bl2">向いている使い方</span></div><ul><li>難解な契約書や論文を丁寧に読み解く</li><li>戦略の立案や複雑な意思決定の補助</li><li>長い会話や大量の資料を扱う作業</li></ul></div>
+            <div class="box adv" style="margin-top:6px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>50本の論文を一度に読み込ませて「この分野の最新トレンドを教えて」と聞く</li><li>複数の事業計画を比較して「リスクとメリットを整理して」と依頼する</li></ul></div>
+          </div>
+        </div>
+        <div class="mcard">
+          <div class="mhd sonnet">Claude Sonnet</div>
+          <div class="mbd">
+            <span class="mtag">バランス型・日常使いに最適</span>
+            <p>賢さとスピードのバランスが良く、ほとんどの日常業務に対応できます。迷ったらこれを選ぶのがおすすめ。</p>
+            <div class="mlatest">最新: Claude Sonnet 4.6</div>
+            <div class="box" style="margin-top:10px"><div class="bh"><div class="bd"></div><span class="bl2">向いている使い方</span></div><ul><li>メール・資料・報告書の作成</li><li>調べ物の要約やデータの整理</li><li>日常の相談や質問への回答</li></ul></div>
+            <div class="box adv" style="margin-top:6px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>毎日のルーティン業務（議事録まとめ・メール下書き）を任せる</li><li>Claude Codeで使う場合も、このモデルが標準でほとんどの開発作業をこなす</li></ul></div>
+          </div>
+        </div>
+        <div class="mcard">
+          <div class="mhd haiku">Claude Haiku</div>
+          <div class="mbd">
+            <span class="mtag">高速・低コスト・大量処理向け</span>
+            <p>とにかく速くて安い。単純な作業を大量にこなしたいときに向いています。</p>
+            <div class="mlatest">最新: Claude Haiku 4.5</div>
+            <div class="box" style="margin-top:10px"><div class="bh"><div class="bd"></div><span class="bl2">向いている使い方</span></div><ul><li>お客様サポートのチャットボット</li><li>大量の文章を一括で分類・タグ付け</li><li>シンプルな質問への即答</li></ul></div>
+            <div class="box adv" style="margin-top:6px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>Haikuで一次スクリーニングをして、難しい問い合わせだけOpusに転送する2段構成</li><li>1,000件のアンケート回答をHaikuで一括分類して、傾向をまとめる</li></ul></div>
+          </div>
+        </div>
+      </div>
+      <p class="sub">料金プランごとに使える機能が変わる</p>
+      <div class="pt">
+        <div class="ph"><div class="phc">使える機能</div><div class="phc">無料</div><div class="phc">Pro</div><div class="phc">Max</div><div class="phc">Team/法人</div></div>
+        <div class="pr"><div class="prc feat">チャット（Claude.ai）</div><div class="prc ok">✓</div><div class="prc ok">✓</div><div class="prc ok">✓</div><div class="prc ok">✓</div></div>
+        <div class="pr"><div class="prc feat">Claude Code（開発者向け）</div><div class="prc no">—</div><div class="prc ok">✓</div><div class="prc ok">✓</div><div class="prc ok">✓</div></div>
+        <div class="pr"><div class="prc feat">Claude Cowork（仕事の丸投げ）</div><div class="prc no">—</div><div class="prc ok">✓</div><div class="prc ok">✓</div><div class="prc ok">✓</div></div>
+        <div class="pr"><div class="prc feat">パソコンの画面操作</div><div class="prc no">—</div><div class="prc ok">✓</div><div class="prc ok">✓</div><div class="prc ok">✓</div></div>
+        <div class="pr"><div class="prc feat">Opusへの優先アクセス</div><div class="prc no">—</div><div class="prc no">—</div><div class="prc ok">✓</div><div class="prc ok">✓</div></div>
+      </div>
+      <p style="font-size:11px;color:var(--gray);margin-top:6px">※ Cowork・画面操作は現在テスト段階（Research Preview）のため変更になる場合があります</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 CHAT -->
+
+<section class="sec" id="chat">
+  <div class="sg">
+    <div class="slb">チャットで使う<sup>04</sup></div>
+    <div class="sbody">
+      <h3>いちばん基本の使い方は「話しかけるだけ」。<span class="badge ga">一般公開</span></h3>
+      <p>Claude.ai（クロード・エーアイ）というウェブサイト、またはスマホアプリを開いて、話しかけるだけで使えます。特別な設定や知識は一切不要。LINEやメッセージアプリに似た感覚で使えます。</p>
+      <div class="pb or">
+        <div class="pb-t"><p class="pb-ey">Claude.ai Chat</p><p class="pb-title">話しかけるだけで、<br>仕事が進む。</p><p class="pb-sub">文章の作成・調べ物・相談・翻訳・要約……日常のあらゆる知的作業をClaude に手伝ってもらえます。</p></div>
+        <div class="pb-icon">💬</div>
+      </div>
+      <div class="pb-meta">
+        <div><div class="pb-ml">使えるデバイス</div><div class="pb-mv">パソコンのブラウザ / iPhone / Android / Macアプリ / Windowsアプリ</div></div>
+        <div><div class="pb-ml">送れるもの</div><div class="pb-mv">文章・画像・PDFファイル・Excelなど</div></div>
+        <div><div class="pb-ml">記憶機能</div><div class="pb-mv">無料プランも含む全プランで利用可能（2025年〜）</div></div>
+      </div>
+      <p class="sub">知っておくと便利な機能</p>
+      <div class="fg">
+        <div class="fc"><div class="fi">📁</div><div class="ft">
+          <h4>プロジェクト機能</h4>
+          <p>特定の仕事専用の「部屋」を作れます。そこにルールや資料を入れておくと、毎回説明しなくてもClaudeが把握した状態で話せます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「採用担当」プロジェクトに評価基準を登録 → 毎回「こういう基準で見て」と言わずに済む</li><li>「ブログ執筆」プロジェクトに文体のルールを設定 → いつも同じトーンで書いてくれる</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>社内マニュアルや商品情報を入れて「社内の専門家」として機能させる</li><li>クライアントごとにプロジェクトを分けて、情報が混ざらないようにする</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">💾</div><div class="ft">
+          <h4>記憶機能（メモリ）</h4>
+          <p>「私はマーケターです」「箇条書きで答えて」などを一度伝えると、次からのすべての会話で覚えていてくれます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「私の職業・業界・関心テーマ」を最初に登録しておく</li><li>「文章の最後に必ずまとめを入れて」などの好みを設定する</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>自分の文章サンプルを登録して「私っぽい文体で書いて」と毎回使う</li><li>「競合他社はAとBです」と覚えさせて、いつでも比較分析を頼める</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔍</div><div class="ft">
+          <h4>ウェブ検索機能</h4>
+          <p>Claudeは自分が知らない最新情報もインターネットで調べて答えてくれます。昨日のニュースや今日の株価も聞けます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「今日のドル円レートを調べて日本語で教えて」</li><li>「この業界で最近何かニュースはある？」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>「この業界の最新規制を調べて、自社への影響を一言で教えて」と複合依頼する</li><li>調べた内容をそのままSNS投稿文に変換するよう続けて頼む</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔗</div><div class="ft">
+          <h4>他のサービスとの連携</h4>
+          <p>GoogleカレンダーやSlack、Notionなどと繋ぐことで、それらのデータをClaudeが参照して答えてくれます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「Googleカレンダーの今週の予定を教えて」</li><li>「Notionのこのページを要約して」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>カレンダー・メール・Slackを同時に接続して「今日やるべきことを整理して」と一括確認</li><li>Notionのデータベースを読み込ませて、週次レポートを自動生成させる</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📊</div><div class="ft">
+          <h4>グラフや図の自動作成</h4>
+          <p>数字を貼り付けると、そのままグラフや図を作ってくれます。資料作りが一気にラクになります。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>Excelの数字をコピペして「棒グラフにして」と頼む</li><li>「この流れを図で説明して」でフローチャートを生成</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>月次データを毎月貼り付けて「前月比較グラフと異常値を指摘して」と定型分析にする</li><li>プロセスの説明を会話しながらリアルタイムで図を修正していく</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📱</div><div class="ft">
+          <h4>スマホとパソコンをまたいで使える</h4>
+          <p>通勤中にスマホで「この資料を要約して」と頼んで、会社に着いたらパソコンで結果を確認する、という使い方ができます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>電車の中でスマホで指示 → デスクに着いたらパソコンで続き</li><li>Coworkで走らせたタスクをスマホで進捗確認</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>移動中に思いついたアイデアをスマホで依頼 → Claudeが整理・文章化 → 帰社後すぐ使えるように準備完了</li></ul></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CLAUDE CODE -->
+
+<section class="sec" id="code">
+  <div class="sg">
+    <div class="slb">Claude Code<sup>05</sup></div>
+    <div class="sbody">
+      <h3>プログラマーの「相棒AI」。でも使うのはプログラマーだけじゃない。<span class="badge ga">一般公開</span></h3>
+      <p>Claude Codeは、パソコンのプログラム開発を手伝ってくれるAIツールです。2025年2月から使えるようになり、2026年初頭には年間2,500億円以上の売上を生む大ヒット製品になりました。</p>
+      <p>プログラマー向けに作られましたが、最近はプログラムが書けない人が「自分専用の道具」を自分で作るためにも使われています（これを「バイブコーディング」と呼びます）。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 「何でもできる優秀な助手」がパソコンの中にいて、指示を出すと一人でプログラムを書いたり直したりしてくれます。人間は「何を作ってほしいか」を伝えるだけでOKです。</p>
+      </div>
+      <div class="pb gr">
+        <div class="pb-t"><p class="pb-ey">Claude Code</p><p class="pb-title">指示するだけで、<br>プログラムが<br>できあがる。</p><p class="pb-sub">プログラムを書く・直す・テストする作業を、Claudeが自律的に進めます。プログラムが書けない方でも、「作りたいもの」を言葉で伝えるだけで動くものが出来上がります。</p></div>
+        <div class="pb-icon">⌨️</div>
+      </div>
+      <div class="pb-meta">
+        <div><div class="pb-ml">操作できる場所</div><div class="pb-mv">ターミナル（黒い画面）/ 開発ツール / iPhone / Android / DiscordやTelegramのアプリ</div></div>
+        <div><div class="pb-ml">自動モード</div><div class="pb-mv">安全な作業は確認なしで自動実行、危険な操作は自動でブロック</div></div>
+        <div><div class="pb-ml">公開時期</div><div class="pb-mv">2025年2月に試験公開 → 同年5月に正式公開</div></div>
+      </div>
+      <p class="sub">主な機能と活用例</p>
+      <div class="fg">
+        <div class="fc"><div class="fi">🗂️</div><div class="ft">
+          <h4>プロジェクト全体を理解して作業する</h4>
+          <p>ファイルが数百個あるような大きなプロジェクトでも、全部読んで理解した上で作業します。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「このシステムの認証の仕組みを全ページで統一して」と頼むと、関係するファイルを全部探して直してくれる</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>新入社員向けに「このシステムの構造を初心者向けに説明して」と頼み、オンボーディング資料を自動生成</li><li>古いシステムを見せて「修正が難しい箇所はどこ？」と技術的な負債を洗い出させる</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🤖</div><div class="ft">
+          <h4>自動で判断して作業を進める（Auto Mode）</h4>
+          <p>「安全な作業かどうか」をAIが自動で判断して進めます。危ない操作は自動でストップ。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>テストを実行 → 失敗 → 原因を特定 → 修正 → 再テスト、のサイクルを全自動で回す</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>夜間に「昨日失敗したテストを直して、報告書を作っておいて」と頼んで帰宅。翌朝には完了している</li><li>週に一度、使っているソフトウェアの更新と動作確認を自動で行うよう設定する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">💬</div><div class="ft">
+          <h4>DiscordやTelegramからも操作できる</h4>
+          <p>スマホのチャットアプリからClaudeに指示を送り、パソコンで作業させることができます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>外出先のDiscordから「このバグを直しておいて」とメッセージを送るだけ</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>チームのSlackに「Claudeボット」として設置して、誰でも「コードを確認して」と頼めるようにする</li><li>企画担当者や営業担当者が日本語で仕様を伝えると、Claudeが自動でプログラムを作るフローを構築</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔌</div><div class="ft">
+          <h4>他のサービスと繋いで使う（MCP）</h4>
+          <p>Figmaのデザインツールや、Jiraというタスク管理ツールなど、外部のサービスと連携して使えます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>Figmaで作ったデザインをそのままウェブページのコードに変換する</li><li>「Aさんが担当しているタスク一覧を取得して進捗をまとめて」と頼む</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>デザイン確認→コーディング→テスト→タスク完了報告の流れを一気通貫で自動化</li><li>社内の独自システムをClaude に繋いで、いつでも社内データを参照できるようにする</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🖥️</div><div class="ft">
+          <h4>マウスとキーボードで画面を直接操作</h4>
+          <p>Claudeが実際にパソコンの画面を見ながら、マウスをクリックしたりキーを打ったりして作業します。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>ブラウザでエラーメッセージを確認 → コードを修正 → 動作確認まで全自動で行う</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>「このウェブページが正しく動くか全パターンテストして、問題があればスクリーンショット付きで報告して」と頼む</li><li>複数の管理画面を横断しながら設定確認する作業をまとめて自動化</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📝</div><div class="ft">
+          <h4>プログラムが書けない人でも使える（バイブコーディング）</h4>
+          <p>「こんなものを作りたい」と日本語で伝えるだけで、Claudeが全部プログラムを書いてくれます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「毎月の経費をグラフ表示する簡単なツールを作って」と言うだけで動くものができる</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>部署ごとに専用の業務ツールを現場の担当者自身が作る「市民開発」の仕組みを整える</li><li>「翌日の会議でデモが必要」というときに、当日中にプロトタイプを作って見せる</li></ul></div>
+        </div></div>
+      </div>
+
+```
+  <p class="sub">CLAUDE.md — 「Claudeへの業務マニュアル」ファイル</p>
+  <div style="border:1px solid var(--border);margin-top:0">
+    <div style="padding:20px 24px">
+      <p style="font-size:14px;line-height:1.85;color:var(--text-mid);margin-bottom:12px">CLAUDE.mdとは、テキストで書いた「Claudeへの取扱説明書」です。このファイルをフォルダに置いておくと、Claude Codeを起動するたびに自動で読み込まれ、「このプロジェクトではどう動けばいいか」をClaudeが把握してから作業を始めます。</p>
+      <div class="analogy" style="margin-bottom:16px">
+        <p><strong>💡 たとえるなら…</strong> 新しいアルバイトに「うちの店のルール」を書いた紙を渡すイメージ。毎回口頭で説明しなくても、Claudeはそのルールを守って動いてくれます。</p>
+      </div>
+
+      <!-- 階層図 -->
+      <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">📂 どこに置くかで効果が変わる</p>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:12px">CLAUDE.mdは<strong>複数の場所に置けます</strong>。置く場所によって「どの範囲に適用されるか」が変わり、近い場所のルールが優先されます。</p>
+      <div class="code-block" style="font-family:'Courier New',monospace;font-size:11px;line-height:2;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
+        <span style="color:var(--gray)"># フォルダの構成イメージ</span><br>
+        <span style="color:var(--blue);font-weight:600">ホームフォルダ（自分のパソコン全体）</span><br>
+        <span style="color:var(--text-lt)">└── CLAUDE.md</span>
+        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--blue);background:rgba(106,155,204,.1);padding:1px 6px;border:1px solid rgba(106,155,204,.3)">① 全プロジェクト共通のルール</span><br><br>
+        <span style="color:var(--orange);font-weight:600">営業ツール/（特定の仕事フォルダ）</span><br>
+        <span style="color:var(--text-lt)">├── CLAUDE.md</span>
+        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--orange);background:rgba(217,119,87,.08);padding:1px 6px;border:1px solid rgba(217,119,87,.25)">② この仕事専用のルール</span><br>
+        <span style="color:var(--text-lt)">│</span><br>
+        <span style="color:var(--text-lt)">├── ソースコード/</span><br>
+        <span style="color:var(--text-lt)">│   └── CLAUDE.md</span>
+        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span><br>
+        <span style="color:var(--text-lt)">│</span><br>
+        <span style="color:var(--text-lt)">└── ドキュメント/</span><br>
+        <span style="color:var(--text-lt)">　　└── CLAUDE.md</span>
+        <span style="display:inline-block;margin-left:6px;font-size:10px;color:var(--green);background:rgba(120,140,93,.08);padding:1px 6px;border:1px solid rgba(120,140,93,.25)">③ このフォルダだけのルール</span>
+      </div>
+
+      <div style="border:1px solid var(--border);margin-top:10px">
+        <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
+          <div style="background:var(--blue);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">①</div>
+          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">全共通</div>
+          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">ホームフォルダに置く。「私はいつも日本語で答えて」「説明は短めにして」など、<strong>どの仕事でも共通の自分ルール</strong>を書く。</div>
+        </div>
+        <div style="display:grid;grid-template-columns:24px 80px 1fr;border-bottom:1px solid var(--border)">
+          <div style="background:var(--orange);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">②</div>
+          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">仕事別</div>
+          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">仕事フォルダのトップに置く。「この仕事はPythonで」「テストは必ず書いて」など<strong>この仕事全体のルール</strong>。チームで共有できる。</div>
+        </div>
+        <div style="display:grid;grid-template-columns:24px 80px 1fr">
+          <div style="background:var(--green);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">③</div>
+          <div style="padding:10px 12px;background:var(--bg-sub);border-right:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center">場所別</div>
+          <div style="padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.7">特定のフォルダ内に置く。「ここのファイルは触る前に必ず確認して」など<strong>そのフォルダだけの細かいルール</strong>。②のルールより優先される。</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--gray);margin-top:7px">読み込み順：① → ② → ③ の順に読まれ、後から読んだものが優先されます。</p>
+
+      <!-- 書き方例 -->
+      <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin:16px 0 8px">✏️ 実際の書き方の例（そのままコピーして使えます）</p>
+      <div style="font-family:'Courier New',monospace;font-size:11px;line-height:1.9;color:var(--text);background:var(--bg-sub);padding:14px 18px;border:1px solid var(--border)">
+        <span style="color:var(--gray)"># この仕事について</span><br>
+        営業チーム向けの顧客管理ツールです。<br><br>
+        <span style="color:var(--gray)"># 言葉のルール</span><br>
+        - コードのコメントと説明は<strong>必ず日本語</strong>で書いてください<br>
+        - 難しい用語は使わず、わかりやすく説明してください<br><br>
+        <span style="color:var(--gray)"># 作業のルール</span><br>
+        - 新しい機能を追加したら、必ずテストも書いてください<br>
+        - 大きな変更の前に、「こうしようとしています」と教えてください<br><br>
+        <span style="color:var(--gray)"># ⚠️ 絶対にやらないでほしいこと</span><br>
+        - お客様の個人情報を外部に送らないでください<br>
+        - 本番のデータベースに直接書き込まないでください
+      </div>
+
+      <div class="box" style="margin-top:12px"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>コーディングのルールを書いておいて、毎回言わなくても自動で守らせる</li><li>「やってはいけないこと」を明示して、Claudeが誤って重要なファイルを触らないようにする</li><li>「変更前に必ず報告して」と書いて、不意の書き換えを防ぐ安全装置として使う</li></ul></div>
+      <div class="box adv" style="margin-top:8px"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>チームのフォルダにCLAUDE.mdを一つ置くだけで、チーム全員が同じルールでClaudeを使える環境が整う</li><li>非エンジニアの方は「私はプログラムがわかりません。変更する前に何をするか日本語で説明してください」と書いておくと安心して使える</li><li>「このフォルダは本番環境に直結しているので、触る前に必ず確認を求めて」と書いて大事なファイルを守る</li></ul></div>
+    </div>
+  </div>
+
+  <p class="sub">インストール方法（4ステップ）</p>
+  <div class="steps">
+    <div class="si"><div class="sn">1</div><div class="sc"><h4>Node.jsをインストールする</h4><p>Claude Codeを動かすために必要なソフト（Node.js）を公式サイトからダウンロードしてインストールします。無料です。</p></div></div>
+    <div class="si"><div class="sn">2</div><div class="sc"><h4>Claude Codeをインストールする</h4><p>黒い画面（ターミナル）を開いて <code>npm install -g @anthropic-ai/claude-code</code> と入力してEnterキーを押します。自動でインストールされます。</p></div></div>
+    <div class="si"><div class="sn">3</div><div class="sc"><h4>Claudeを起動する</h4><p>作業したいフォルダに移動して <code>claude</code> と入力してEnterキー。初回はAnthropicのアカウントでログインが必要です。</p></div></div>
+    <div class="si"><div class="sn">4</div><div class="sc"><h4>やってほしいことを伝える</h4><p>「このバグを直してください」「テストを書いてください」など、普通の日本語で伝えるだけ。Claudeが計画を立てて作業を始めます。</p></div></div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- 06 COWORK -->
+
+<section class="sec" id="cowork">
+  <div class="sg">
+    <div class="slb">Claude Cowork<sup>06</sup></div>
+    <div class="sbody">
+      <h3>「やっておいて」で仕事が進む、新しい働き方。<span class="badge rp">テスト公開中</span></h3>
+      <p>Claude Coworkは2026年1月に登場した、プログラムができない方でもAIに仕事を丸投げできるツールです。Claude Codeと同じ仕組みで動きますが、黒い画面（ターミナル）を使わずに、普通のアプリ感覚で操作できます。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 信頼できるアシスタントに「これやっておいて」と頼んで席を外したら、戻ってきたら完成していた——そんな感覚で使えます。普通のチャットは「一問一答」ですが、Coworkは「仕事を任せる」ための仕組みです。</p>
+      </div>
+      <div class="pb or">
+        <div class="pb-t"><p class="pb-ey">Claude Cowork</p><p class="pb-title">任せたら、<br>戻ったとき<br>できあがっている。</p><p class="pb-sub">ファイルの整理、資料作成、データ分析——複雑な知識労働をClaude がまるごと引き受けます。もう一人のデジタルアシスタントとして活用できます。</p></div>
+        <div class="pb-icon">🤝</div>
+      </div>
+      <div class="pb-meta">
+        <div><div class="pb-ml">使えるOS</div><div class="pb-mv">Mac / Windows（デスクトップアプリが必要）</div></div>
+        <div><div class="pb-ml">必要なプラン</div><div class="pb-mv">Pro・Max・Team・法人プランのいずれか</div></div>
+        <div><div class="pb-ml">公開状況</div><div class="pb-mv">2026年1月〜（テスト公開中）</div></div>
+      </div>
+      <p class="sub">何ができるの？</p>
+      <div class="fg">
+        <div class="fc"><div class="fi">📁</div><div class="ft">
+          <h4>パソコンのファイルに直接アクセス</h4>
+          <p>「このフォルダを見ていいよ」と許可すると、Claudeが自分でファイルを開いて読んで、整理して、新しく作ってくれます。手動でアップロードする必要はありません。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「ダウンロードフォルダをカテゴリ別に自動整理して」</li><li>「バラバラに保存してあるメモをまとめて週次レポートを作って」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>数百枚のPDF請求書を読み込んで、項目ごとに分類したExcelを自動作成</li><li>プロジェクト内の全文書を読んで「この案件の現状と課題を一枚にまとめて」</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📊</div><div class="ft">
+          <h4>ExcelやPowerPointを直接作る</h4>
+          <p>指示するだけで、数式や図が入ったExcelやスライドを直接作ってくれます。Officeを開く必要すらありません。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>領収書の写真を渡して「経費精算Excelにまとめて」</li><li>数字のデータを渡して「役員報告用のスライドを作って」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>「競合5社を調べて、比較表ExcelとA4一枚のスライドを同時に作って」と一括依頼</li><li>毎月の売上データを入れるだけでグラフ付き報告スライドが自動更新される仕組みを作る</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">⏰</div><div class="ft">
+          <h4>決まった日時に自動で実行</h4>
+          <p>「毎週月曜の朝に〇〇して」と設定しておくと、Claudeが自動で実行してくれます。定期的な作業を自動化できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「毎朝メールを要約して、今日の優先タスクを整理して」</li><li>「毎週金曜にKPIをまとめた報告書を作って」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>毎日の業界ニュースを自動収集 → 要約 → 自社への影響をメモにして保存する「デジタル調査員」として設定</li><li>四半期末に財務データを集計して、CFO向けサマリーを自動作成</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔀</div><div class="ft">
+          <h4>複数の作業を同時に進める</h4>
+          <p>大きな仕事を小さな作業に分割して、いくつかを同時に並行して進めます。時間のかかる作業も短時間で終わらせます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「調査 → まとめ → スライド作成」という流れをClaudeが一人でやり切る</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>100本のインタビュー音声を並行で文字起こし → テーマ分類 → 洞察レポートを一夜で完成させる</li><li>同じ内容を10か国語に同時翻訳・ローカライズする</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🖥️</div><div class="ft">
+          <h4>パソコンの画面を直接操作</h4>
+          <p>Claudeが実際にマウスをクリックしたりキーを打ったりして作業します。専用の連携がないアプリでも操作できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>連携に対応していない社内システムへのデータ入力を自動化</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>連携できない古い基幹システムの操作もClaudeが代わりに行い、追加投資なしで自動化を実現</li><li>複数のウェブサービスをまたいで情報を集めて統合する「仮想アシスタント」として使う</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔌</div><div class="ft">
+          <h4>Slackや他のツールと繋げる</h4>
+          <p>SlackやGoogle Drive、Jiraなどと連携して使えます。会社のツールに合わせてカスタマイズも可能です。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「Slackの未読メッセージを読んで、重要なものだけ教えて」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>チーム固有の業務フロー（例：クライアント対応手順）をあらかじめ設定しておいて、全員が同じ手順でClaudeを使える環境を作る</li><li>SalesforceとSlackとGoogle Driveを繋いで「今月の商談状況を一言で教えて」と聞けるようにする</li></ul></div>
+        </div></div>
+      </div>
+      <p class="sub">普通のチャットとCoworkの違い</p>
+      <div class="cmp">
+        <div class="crow"><div class="cc"></div><div class="cc hd gy">普通のチャット</div><div class="cc hd or">Claude Cowork</div></div>
+        <div class="crow"><div class="cc lbl">やりとりの方法</div><div class="cc">一問一答。こちらが聞いてClaudeが答える繰り返し</div><div class="cc">「〇〇しておいて」と頼んでClaudeが自律的に完成させる</div></div>
+        <div class="crow"><div class="cc lbl">ファイルの扱い</div><div class="cc">手動でアップロードが必要</div><div class="cc">パソコンのフォルダに直接アクセスできる</div></div>
+        <div class="crow"><div class="cc lbl">席を外している間</div><div class="cc">作業が止まる</div><div class="cc">Claudeが作業を続け、戻ったら完成している</div></div>
+        <div class="crow"><div class="cc lbl">定期的な繰り返し</div><div class="cc">毎回自分で頼む必要がある</div><div class="cc">スケジュールを設定して自動実行できる</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 CHROME -->
+
+<section class="sec" id="chrome">
+  <div class="sg">
+    <div class="slb">ブラウザで使う<sup>07</sup></div>
+    <div class="sbody">
+      <h3>ウェブサイトの操作もClaudeに任せられる。<span class="badge rp">テスト公開中</span></h3>
+      <p>「Claude in Chrome（クローム）」はGoogleのブラウザに追加できる拡張機能です。これを入れると、Claudeがブラウザのウェブサイトをクリックしたりフォームを入力したりして、ウェブ上の繰り返し作業を自動でやってくれます。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 「毎回自分でやっていたウェブ上の作業」をClaudeに代わりにやらせる仕組みです。複数のサイトを回って情報を集めたり、申請フォームに入力したりする作業が自動化できます。</p>
+      </div>
+      <div class="pb bl">
+        <div class="pb-t"><p class="pb-ey">Claude in Chrome</p><p class="pb-title">ウェブ上の<br>面倒な作業も<br>自動化できる。</p><p class="pb-sub">ClaudeがGoogleChromeを操作して、複数のウェブサイトをまたいだ作業を自動でこなします。Coworkと組み合わせるとさらに便利。</p></div>
+        <div class="pb-icon">🌐</div>
+      </div>
+      <div class="pb-meta">
+        <div><div class="pb-ml">使い方</div><div class="pb-mv">Chrome Web Store（無料）からインストール</div></div>
+        <div><div class="pb-ml">連携できるもの</div><div class="pb-mv">Claude Cowork / Claude Code</div></div>
+        <div><div class="pb-ml">必要なプラン</div><div class="pb-mv">ProまたはMax以上</div></div>
+      </div>
+      <p class="sub">こんなことができます</p>
+      <div class="fg">
+        <div class="fc"><div class="fi">🔎</div><div class="ft">
+          <h4>複数のウェブサイトを調べてまとめる</h4>
+          <p>「このサイトとあのサイトを見て、情報をまとめて」と頼むと、Claudeが自分でサイトを訪問して情報を集めてまとめてくれます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>競合10社のウェブサイトを巡回して、価格と機能の比較表を作る</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>毎日の業界ニュースサイトを自動巡回して、自社に関係する記事だけ抜き出してSlackに送る「ニュースモニタリングbot」を作る</li><li>求人サイトを複数調べて「条件に合う求人をランキング付けして教えて」</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📝</div><div class="ft">
+          <h4>ウェブのフォーム入力を自動化</h4>
+          <p>繰り返し発生するフォームへの入力作業をClaudeが代わりに行ってくれます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>複数のサービスに同じ顧客情報を一括登録する</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>補助金や助成金の申請書類を、省庁ごとに違うフォームに自動入力して送信する</li><li>スプレッドシートの顧客リストを読んで、CRMシステムへの一括登録を自動化する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📋</div><div class="ft">
+          <h4>連携に対応していないツールも操作できる</h4>
+          <p>ClaudeとSlackやNotionが直接繋がっていないツールでも、ブラウザ経由で画面を操作して作業できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>連携できない社内システムからデータを集めてまとめる</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>会計システム・在庫システム・受注システムの3つを跨いで月次集計を自動化（専用連携なしで）</li><li>管理画面の定型メンテナンス操作をまとめて自動化する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔄</div><div class="ft">
+          <h4>Coworkと組み合わせる</h4>
+          <p>Coworkが直接繋がれないサービスでも、このChrome機能を経由することでCoworkから操作できるようになります。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>Coworkが自動化している作業の中で、ウェブ操作が必要な部分だけChromeで補う</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>Coworkの自動ワークフロー内で、対応していないサービスの部分だけ自動的にChrome操作に切り替わるハイブリッドな自動化を実現する</li></ul></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 OFFICE -->
+
+<section class="sec" id="office">
+  <div class="sg">
+    <div class="slb">ExcelやPowerPoint<sup>08</sup></div>
+    <div class="sbody">
+      <h3>Officeを開いたまま、Claudeに頼める。<span class="badge ga">一般公開</span></h3>
+      <p>ExcelやPowerPointにClaude専用の機能を追加できます。スプレッドシートやスライドを開いたまま、「この数字を分析して」「スライドを整えて」と話しかけるだけで、Claudeが直接作業してくれます。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> Excelの中に有能なアナリストが住んでいて、「このデータで何がわかる？」と聞くと即座に分析してくれる感じです。別のウィンドウに切り替える必要もありません。</p>
+      </div>
+      <p class="sub">何ができるの？</p>
+      <div class="fg">
+        <div class="fc"><div class="fi">📗</div><div class="ft">
+          <h4>Claude for Excel（Excelで使う）</h4>
+          <p>Excelの中からClaudeに話しかけると、ピボットテーブルの作成・数式の生成・色分けなどを直接やってくれます。数式がわからなくても大丈夫。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「この売上データでピボットテーブルを作って、地域別・月別に集計して」</li><li>「A列の数字が100以下のセルを赤色にして」</li><li>「前年比を計算する数式を入れて」（関数がわからなくてもOK）</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>複数シートのデータを統合して、自動更新されるKPIダッシュボードを一度作っておく。翌月はデータを入れ替えるだけ</li><li>「売上が10%下がったら利益はどう変わる？」とシナリオ分析を会話で進める</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📘</div><div class="ft">
+          <h4>Claude for PowerPoint（スライドで使う）</h4>
+          <p>PowerPointの中からClaude に「スライドを作って」「デザインを統一して」と頼めます。複数人が作ったバラバラのデザインをまとめるのにも便利。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「Excelのデータをもとに、わかりやすいグラフ付きのスライドを作って」</li><li>「全スライドのフォントとレイアウトを揃えて」</li><li>「英語のスライドを日本語に翻訳して、表現も自然にして」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>毎月の営業報告は「先月のデータに差し替えて、コメントも更新して」と伝えるだけで完成させる</li><li>複数人が作ったバラバラのデッキを統合して、一貫したデザインに整える</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🔗</div><div class="ft">
+          <h4>ExcelとPowerPointを連携して使う</h4>
+          <p>ExcelとPowerPointを一緒に開いたとき、片方で分析した結果をもう片方に自動で反映できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>Excelで分析した数字を「そのままPowerPointの該当スライドに反映して」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>Excelで「前年比・地域別・商品別」の3軸分析を実行して、それぞれの結論を対応するスライドに自動反映させる一気通貫のワークフロー</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">🏢</div><div class="ft">
+          <h4>会社のセキュリティ環境から使える</h4>
+          <p>AWSやGoogleCloud、Microsoftの法人向けサービス経由でも使えるので、情報漏洩が心配な会社でも安心して導入できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>社内のAzure環境から使うことで、社外にデータが出ないようにしながら活用</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>機密情報を扱う部署でも、会社のセキュリティポリシーを守りながら全社員にClaude for Officeを展開する</li></ul></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CAPABILITIES -->
+
+<section class="sec" id="capabilities">
+  <div class="sg">
+    <div class="slb">できることまとめ<sup>09</sup></div>
+    <div class="sbody">
+      <h3>「文章を扱う仕事」なら、ほぼ何でも手伝える。</h3>
+      <p>Claudeが最も得意とするのは「言葉を使う知的な作業」です。書く・調べる・まとめる・考える・翻訳する——こうした作業なら分野を問わず力になれます。</p>
+      <div class="ut">
+        <div class="utile"><span class="ti">📊</span><span>ビジネス<br>文書作成</span></div>
+        <div class="utile"><span class="ti">💻</span><span>プログラム<br>開発支援</span></div>
+        <div class="utile"><span class="ti">🎓</span><span>学習・<br>教育</span></div>
+        <div class="utile"><span class="ti">🔬</span><span>調査・<br>分析</span></div>
+        <div class="utile"><span class="ti">✨</span><span>創作・<br>コンテンツ</span></div>
+      </div>
+      <p class="sub">どんな仕事の人に向いているの？</p>
+      <div class="fg" style="margin-top:12px">
+        <div class="fc"><div class="fi">🏢</div><div class="ft">
+          <h4>管理職・経営者の方</h4>
+          <p>膨大な情報を整理して、素早く意思決定の材料を作るのが得意です。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「この会議録から決定事項と次のアクションだけ抜き出して」</li><li>「競合3社の強みと弱みを比較して、一枚のメモにまとめて」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>複数回の会議録を月ごとに集めて「今月の主要課題と未解決事項を自動レポートにして」</li><li>事業計画書に対して「株主・従業員・顧客それぞれの視点で懸念点を指摘して」と多角的なレビューを依頼する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">👨‍💻</div><div class="ft">
+          <h4>エンジニア・開発者の方</h4>
+          <p>コードを書く・直す・確認するすべての工程を手伝えます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「このコードで速くできるところはどこ？改善案を教えて」</li><li>「この関数のテストを網羅的に書いて」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>「セキュリティリスク・読みやすさ・処理速度の3点でまとめてレビューして、修正したコードも出して」</li><li>設計書を渡すと「実装コード・テスト・説明書・使い方サンプル」を一気に生成する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📝</div><div class="ft">
+          <h4>マーケター・ライターの方</h4>
+          <p>文章を作る・整える・派生させる作業が得意です。大量の文章を素早く量産できます。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「この商品説明を、もっと買いたくなる文章に書き直して」</li><li>「X（Twitter）への投稿案を5パターン出して」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>1つの記事から「ブログ長文・X投稿5案・LinkedIn記事・メルマガ文」を一括で派生させるコンテンツ量産フロー</li><li>ブランドのトーンやルールをProjectに登録して、全コンテンツを一貫したイメージに統一する</li></ul></div>
+        </div></div>
+        <div class="fc"><div class="fi">📚</div><div class="ft">
+          <h4>教育・研究者の方</h4>
+          <p>難しい内容をわかりやすく説明したり、大量の資料を整理したりするのが得意です。</p>
+          <div class="box"><div class="bh"><div class="bd"></div><span class="bl2">活用例</span></div><ul><li>「この論文を高校生にもわかるように説明して」</li><li>「参考文献のリストをAPA形式で整えて」</li></ul></div>
+          <div class="box adv"><div class="bh"><div class="bd"></div><span class="bl2">応用</span></div><ul><li>50本の関連論文を読み込ませて「この研究分野の主な考え方と未解決の問題をまとめて」と文献レビューを自動化</li><li>学習者の間違いのパターンを分析して「この人の弱点に合わせた補習問題を10問作って」と個別対応</li></ul></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 SAFETY -->
+
+<section class="sec" id="safety">
+  <div class="sg">
+    <div class="slb">安全性への姿勢<sup>10</sup></div>
+    <div class="sbody">
+      <h3>「安全」は後付けじゃなく、最初から設計に入っている。</h3>
+      <p>Anthropicは「AIの安全性」を最も大切なテーマとして研究している会社です。Claudeは「危ないことには手を貸さない」「嘘をつかない」「本当に役に立つ」という3つを基本の考え方として作られています。</p>
+      <div class="analogy">
+        <p><strong>💡 たとえるなら…</strong> 優秀な医師は患者に「この薬を増量して」と言われても、危険なら断ります。Claudeも同じで、「やってほしいこと」が危険だと判断した場合は正直に断り、その理由を伝えます。</p>
+      </div>
+      <div class="quote">
+        <p>「ルールを覚えさせるのではなく、なぜそのルールがあるのかを理解させる。そのために憲法（Constitution）を作り、AIに自ら学ばせた。」</p>
+        <cite>— Anthropic Research</cite>
+      </div>
+      <div class="sl">
+        <div class="sli"><div class="sli-n">I</div><div class="sli-b"><h4>危害を加えない（Harmlessness）</h4><p>人や社会を傷つける可能性のある情報や内容の作成を断ります。「危ない」と判断したら、たとえ相手に頼まれても協力しません。</p></div></div>
+        <div class="sli"><div class="sli-n">II</div><div class="sli-b"><h4>正直に話す（Honesty）</h4><p>知らないことを知ったかぶりしません。自信がないときは「これは推測ですが」と必ず断ります。Claudeは自分がAIであることも隠しません。</p></div></div>
+        <div class="sli"><div class="sli-n">III</div><div class="sli-b"><h4>本当に役立つ（Helpfulness）</h4><p>表面的な要求だけでなく、「この人が本当に必要としているもの」を考えて答えます。求めていることと必要なことが違うと思ったら、そのことも伝えます。</p></div></div>
+        <div class="sli"><div class="sli-n">IV</div><div class="sli-b"><h4>Constitutional AI（CAI）とは</h4><p>AIに「どう行動するか」のルール集（憲法）を与えて、自分でそのルールに照らして自分の答えを評価・改善させる訓練方法です。人間が全部チェックするのではなく、AIが自律的に学ぶ仕組みです。</p></div></div>
+        <div class="sli"><div class="sli-n">V</div><div class="sli-b"><h4>安全レベルの格付け制度</h4><p>Anthropicはモデルの危険度をレベル1〜4で評価しています。Claude Opus 4はレベル3（高リスク）に分類されており、より慎重な管理のもとで運用されています。</p></div></div>
+        <div class="sli"><div class="sli-n">VI</div><div class="sli-b"><h4>人間が最終判断をする（Human Oversight）</h4><p>AIがどれだけ賢くなっても、重要な決定は人間が行うべきだという考えを大切にしています。Claudeはその姿勢を支持する設計になっています。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+  <div class="fl">
+    <a href="https://claude.ai" target="_blank">Claude.ai</a>
+    <a href="https://anthropic.com" target="_blank">Anthropic</a>
+    <a href="https://docs.claude.com" target="_blank">公式ドキュメント</a>
+    <a href="#top">ページ先頭へ ↑</a>
+  </div>
+  <span class="fc2">Claude 完全ガイド · 2026年3月時点 · Anthropic</span>
+</footer>
+
+</main>
+
+<script>
+const secs = document.querySelectorAll('section[id]');
+const navs = document.querySelectorAll('.s-item');
+const io = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navs.forEach(n => {
+        n.classList.remove('active');
+        if (n.getAttribute('href') === '#' + id) n.classList.add('active');
+      });
+    }
+  });
+}, { threshold: 0.2, rootMargin: '-15% 0px -60% 0px' });
+secs.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
